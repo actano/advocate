@@ -9,7 +9,8 @@
   },
   "files": [
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "lib"
   ],
   "directories": {
     "lib": "lib",
