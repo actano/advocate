@@ -6,12 +6,9 @@ Promise = require 'bluebird'
 path = require 'path'
 map = require 'lodash/fp/map'
 
+advocate = require '../src/index'
+
 describe 'advocate integration test', ->
-
-    advocate = null
-
-    before 'require', ->
-        advocate = require '../src/index'
 
     licenseWhitelist = memo().is -> []
     exceptionWhitelist = memo().is -> []
