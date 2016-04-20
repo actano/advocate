@@ -11,11 +11,6 @@ testDataPath = path.join __dirname, 'integration-data/a'
 
 describe 'advocate integration test', ->
 
-    licenseWhitelist = memo().is -> []
-    exceptionWhitelist = memo().is -> []
-    moduleWhitelist = memo().is -> []
-    violatingModules = null
-
     describe 'with missing parameters', ->
 
         context 'with no given parameters', ->
@@ -53,6 +48,12 @@ describe 'advocate integration test', ->
                 ]
 
     describe 'with all parameters', ->
+
+        licenseWhitelist = memo().is -> []
+        exceptionWhitelist = memo().is -> []
+        moduleWhitelist = memo().is -> []
+        violatingModules = null
+
 
         beforeEach Promise.coroutine ->
             whitelist =
