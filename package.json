@@ -8,6 +8,7 @@
     "url": "git://github.com/actano/advocate.git"
   },
   "files": [
+    "README.md",
     "LICENSE"
   ],
   "directories": {
