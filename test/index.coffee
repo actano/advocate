@@ -1,0 +1,5 @@
+require './spdx'
+require './detect'
+require './check'
+require './advocate-integration'
+require './detection-integration'

@@ -1,0 +1,11 @@
+{
+  "name": "a",
+  "version": "0.0.1",
+  "license": "MIT",
+  "dependencies": {
+    "b": "^0.0.1"
+  },
+  "devDependencies": {
+    "e": "^0.0.1"
+  }
+}
