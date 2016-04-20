@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "",
   "main": "lib/index.js",
+  "files": [
+    "LICENSE"
+  ],
   "directories": {
     "test": "test"
   },
