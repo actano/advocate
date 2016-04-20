@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/actano/advocate.git"
+  },
   "files": [
     "LICENSE"
   ],
