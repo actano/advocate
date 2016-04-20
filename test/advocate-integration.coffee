@@ -16,46 +16,48 @@ describe 'advocate integration test', ->
     moduleWhitelist = memo().is -> []
     violatingModules = null
 
-    beforeEach Promise.coroutine ->
-        whitelist =
-            licenses: licenseWhitelist()
-            licenseExceptions: exceptionWhitelist()
-            modules: moduleWhitelist()
+    describe 'with all parameters', ->
 
-        options =
-            dev: false
-            path: testDataPath
+        beforeEach Promise.coroutine ->
+            whitelist =
+                licenses: licenseWhitelist()
+                licenseExceptions: exceptionWhitelist()
+                modules: moduleWhitelist()
 
-        {allModules, violatingModules} = yield advocate whitelist, options
+            options =
+                dev: false
+                path: testDataPath
 
-    describe 'license whitelist', ->
-        licenseWhitelist.is -> ['MIT', 'JSON']
+            {allModules, violatingModules} = yield advocate whitelist, options
 
-        it 'contains violating modules', ->
-            expect(map 'explicitName', violatingModules).to.have.members ['c@0.0.1']
-
-        it 'doesn\'t contains non-violating modules', ->
-            expect(map 'explicitName', violatingModules).to.not.contain 'b@0.0.1'
-
-        describe 'in combination with exception white list', ->
-            licenseWhitelist.is -> ['Apache-2.0']
-            exceptionWhitelist.is -> ['LZMA-exception']
+        describe 'license whitelist', ->
+            licenseWhitelist.is -> ['MIT', 'JSON']
 
             it 'contains violating modules', ->
-                expect(map 'explicitName', violatingModules).to.have.members ['b@0.0.1']
+                expect(map 'explicitName', violatingModules).to.have.members ['c@0.0.1']
 
             it 'doesn\'t contains non-violating modules', ->
-                expect(map 'explicitName', violatingModules).to.not.contain 'c@0.0.1'
+                expect(map 'explicitName', violatingModules).to.not.contain 'b@0.0.1'
 
-    describe 'module whitelist', ->
-        moduleWhitelist.is -> [
-            name: 'b'
-            version: '0.0.1'
-            licenseDescriptor: 'JSON AND MIT'
-        ]
+            describe 'in combination with exception white list', ->
+                licenseWhitelist.is -> ['Apache-2.0']
+                exceptionWhitelist.is -> ['LZMA-exception']
 
-        it 'contains violating modules', ->
-            expect(map 'explicitName', violatingModules).to.have.members ['c@0.0.1']
+                it 'contains violating modules', ->
+                    expect(map 'explicitName', violatingModules).to.have.members ['b@0.0.1']
 
-        it 'doesn\'t contains non-violating modules', ->
-            expect(map 'explicitName', violatingModules).to.not.contain 'b@0.0.1'
+                it 'doesn\'t contains non-violating modules', ->
+                    expect(map 'explicitName', violatingModules).to.not.contain 'c@0.0.1'
+
+        describe 'module whitelist', ->
+            moduleWhitelist.is -> [
+                name: 'b'
+                version: '0.0.1'
+                licenseDescriptor: 'JSON AND MIT'
+            ]
+
+            it 'contains violating modules', ->
+                expect(map 'explicitName', violatingModules).to.have.members ['c@0.0.1']
+
+            it 'doesn\'t contains non-violating modules', ->
+                expect(map 'explicitName', violatingModules).to.not.contain 'b@0.0.1'
