@@ -7,6 +7,7 @@ path = require 'path'
 map = require 'lodash/fp/map'
 
 advocate = require '../src/index'
+testDataPath = path.join __dirname, 'integration-data/a'
 
 describe 'advocate integration test', ->
 
@@ -23,7 +24,7 @@ describe 'advocate integration test', ->
 
         options =
             dev: false
-            path: path.join __dirname, 'integration-data/a'
+            path: testDataPath
 
         {allModules, violatingModules} = yield advocate whitelist, options
 
