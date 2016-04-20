@@ -2,12 +2,19 @@ Promise = require 'bluebird'
 
 {getViolatingModules} = require './check'
 {readDependencyTree, extractModules} = require './detect'
+defaults = require 'lodash/defaults'
 
 module.exports = Promise.coroutine (whitelist, options) ->
-    development = options.dev ? false
-    path = options.path ? null
+    options = defaults options,
+        dev: false
+        path: null
 
-    dependencyTree = yield readDependencyTree development, path
+    whitelist = defaults whitelist,
+        licenses: []
+        licenseExceptions: []
+        modules: []
+
+    dependencyTree = yield readDependencyTree options.dev, options.path
     allModules = extractModules root: dependencyTree
     violatingModules = getViolatingModules whitelist.licenses, whitelist.licenseExceptions, whitelist.modules, allModules
 

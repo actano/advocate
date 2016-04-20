@@ -16,6 +16,42 @@ describe 'advocate integration test', ->
     moduleWhitelist = memo().is -> []
     violatingModules = null
 
+    describe 'with missing parameters', ->
+
+        context 'with no given parameters', ->
+            it 'returns without error', Promise.coroutine ->
+                options = {path: testDataPath}
+                {allModules, violatingModules} = yield advocate()
+
+                expect(violatingModules).to.be.an 'array'
+                expect(allModules).to.be.an 'object'
+
+        context 'with no given whitelist', ->
+            it 'returns all production dependencies for given path', Promise.coroutine ->
+                options = {path: testDataPath}
+                {allModules, violatingModules} = yield advocate null, {path: testDataPath}
+
+                expect(map 'explicitName', violatingModules).to.have.members [
+                    'b@0.0.1'
+                    'c@0.0.1'
+                ]
+
+        context 'with no given license whitelist', ->
+            it 'returns all violating dependencies for given path', Promise.coroutine ->
+                options = {path: testDataPath}
+                whitelist =
+                    modules: [
+                        name: 'c'
+                        version: '0.0.1'
+                        licenseDescriptor: 'Apache-2.0 WITH LZMA-exception'
+                    ]
+
+                {allModules, violatingModules} = yield advocate whitelist, {path: testDataPath}
+
+                expect(map 'explicitName', violatingModules).to.have.members [
+                    'b@0.0.1'
+                ]
+
     describe 'with all parameters', ->
 
         beforeEach Promise.coroutine ->
