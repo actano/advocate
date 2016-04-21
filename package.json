@@ -24,11 +24,11 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^2.9.21",
-    "coffee-script": "^1.10.0",
     "lodash": "^4.11.1",
     "spdx": "^0.5.1"
   },
   "devDependencies": {
+    "coffee-script": "^1.10.0",
     "chai": "^3.5.0",
     "chai-subset": "^1.2.2",
     "memo-is": "0.0.2",
