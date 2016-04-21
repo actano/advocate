@@ -1,9 +1,10 @@
 curry = require 'lodash/curry'
-pick = require 'lodash/pick'
 some = require 'lodash/some'
 sortBy = require 'lodash/sortBy'
 isEqual = require 'lodash/fp/isEqual'
 isMatchWith = require 'lodash/fp/isMatchWith'
+
+pickWithDefault = require '../utils/pickWithDefault'
 
 _matchLicenses = (whitelist, actual, key) ->
     if key is 'licenseDescriptor'
@@ -15,10 +16,7 @@ _matchLicenses = (whitelist, actual, key) ->
         return
 
 module.exports = curry (moduleWhitelist, module) ->
-    moduleProps =
-        name: module.name
-        version: module.version
-        licenseDescriptor: module.licenseDescriptor
+    moduleProps = pickWithDefault ['name', 'version', 'licenseDescriptor'], null, module
 
     matchesModule = isMatchWith _matchLicenses, moduleProps
 
