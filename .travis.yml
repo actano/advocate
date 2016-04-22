@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+- '0.12'
+deploy:
+  provider: npm
+  email: marcus.mennemeier@actano.de
+  api_key:
+    secure: a8SApqusqcrtWNaKOP7CeAgiNs3l+dugdZVFlMlgxrL48gbqZgQJzG8auU2rkjWu9Rlq9IehNgehTIQhD48V/aabc6gbEt0NmiAO+Xuwyhhr7XCEltK1XUIJjDK/mNcWLKpNbZW3wDDj+v9eOSCU524JlGG2CKw8EXz4V66L733fEUtQKJi2dQl4fNspe1lban+c3maOj5syDDfKSABcl+KDQHZMWdmzQNtGirwvkaztlsa6m9u6IZwjTNylAf+sHtpDBh4gD/7PTCfJlE4F0X6jPHx2L91FoOwL0z3w/E7R4CNsaLKB8ZMRe3AggOxRUDb+vY5DHLPZl4CPr2cPJXhXJf6Lun4lU3vbQRjUftpo16sGjcgWAIeK3iSikGcOha+syx7T2NkIp5j6dQhBK6Qiz7wE676Zen06imKyZlWGRl4s3yE7+0BsSim3/SRBVxvlOrsJg94OIxbb8zFjrlJJE21QQc24xVbWTGcfKlauwYFv9aEBUMWVYBKjE7T0+P+j51bR6iQWK5+epJ1mw83RVhJ398csgFffxohbVwk5EhTxYyhB+2R1BSzHcvXN7gcgZ/idbuHfUTsSYhWRtPYMlREkIuLHIlWGcD8xDNSvsQjXJe+JCR/5y61KNqrqZr5Cid6nmm46NU/lrJhMi/i4MCtpZh6NEptV5nQ0FFc=
+  on:
+    tags: true
+    repo: actano/advocate
