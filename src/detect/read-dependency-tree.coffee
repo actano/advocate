@@ -1,7 +1,7 @@
 Promise = require 'bluebird'
 childProcess = require('child_process')
 
-execFile = Promise.promisify childProcess.execFile
+execFile = Promise.promisify childProcess.execFile, multiArgs: true
 
 module.exports = Promise.coroutine (dev = false, modulePath) ->
     options =
