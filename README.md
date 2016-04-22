@@ -5,7 +5,7 @@
 [![Dependency Status](https://david-dm.org/actano/advocate.svg)](https://david-dm.org/actano/advocate)
 [![devDependency Status](https://david-dm.org/actano/advocate/dev-status.svg)](https://david-dm.org/actano/advocate#info=devDependencies)
 
-Your advocate doesn't let you down. He checks the licenses of all npm modules of your project.
+Your advocate doesn't let you down. He checks the licenses of all npm modules of your project and their transitive dependencies and compares them to a given whitelist.
 
 ## Installation
 
