@@ -40,16 +40,16 @@ describe 'getting modules with violating license', ->
             ]
 
         it 'should include license for each module', ->
-            expect(result).to.containSubset [
-                {
+            expect(result).to.containSubset {
+                'module2@1': {
                     explicitName: 'module2@1'
                     licenseDescriptor: 'JSON'
-                }
-                {
+                },
+                'module3@1': {
                     explicitName: 'module3@1'
                     licenseDescriptor: 'FOO'
                 }
-            ]
+            }
 
     describe 'with SPDX expressions', ->
 
@@ -62,13 +62,13 @@ describe 'getting modules with violating license', ->
                 licenseDescriptor: 'MIT OR JSON'
 
         it 'should return list of modules without whitelisted license', ->
-            expect(result).to.have.deep.members [
-                {
+            expect(result).to.deep.equal {
+                'module1@1': {
                     explicitName: 'module1@1'
                     licenseDescriptor: 'MIT AND JSON'
                     otherUsedVersions: {}
                 }
-            ]
+            }
 
     describe 'with module whitelist', ->
 
@@ -108,8 +108,8 @@ describe 'getting modules with violating license', ->
                 licenseDescriptor: 'JSON'
 
         it 'should return list of modules without whitelisted license', ->
-            expect(result).to.containSubset [
-                {
+            expect(result).to.containSubset {
+                'module@1': {
                     explicitName: 'module@1'
                     otherUsedVersions:
                         '2':
@@ -118,4 +118,4 @@ describe 'getting modules with violating license', ->
                             version: '2'
                             licenseDescriptor: 'JSON'
                 }
-            ]
+            }

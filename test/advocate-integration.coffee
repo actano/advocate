@@ -18,7 +18,7 @@ describe 'advocate integration test', ->
                 options = {path: testDataPath}
                 {allModules, violatingModules} = yield advocate()
 
-                expect(violatingModules).to.be.an 'array'
+                expect(violatingModules).to.be.an 'object'
                 expect(allModules).to.be.an 'object'
 
         context 'with no given whitelist', ->
