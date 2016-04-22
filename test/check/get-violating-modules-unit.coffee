@@ -9,7 +9,7 @@ describe 'getting modules with violating license', ->
     getViolatingModules = null
 
     before 'require', ->
-        getViolatingModules = require '../../src/check/get-violating-modules'
+        getViolatingModules = require '../../lib/check/get-violating-modules'
 
     licenseWhitelist = memo().is -> []
     exceptionWhitelist = memo().is -> []

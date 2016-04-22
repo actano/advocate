@@ -6,7 +6,7 @@ Promise = require 'bluebird'
 path = require 'path'
 map = require 'lodash/fp/map'
 
-advocate = require '../src/index'
+advocate = require '../lib/index'
 testDataPath = path.join __dirname, 'integration-data/a'
 
 describe 'advocate integration test', ->

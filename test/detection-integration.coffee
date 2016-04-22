@@ -11,8 +11,8 @@ describe 'detection integration test', ->
     modulePath = path.join __dirname, 'integration-data/a'
 
     before 'require', ->
-        readDependencyTree = require '../src/detect/read-dependency-tree'
-        extractModules = require '../src/detect/extract-module-map'
+        readDependencyTree = require '../lib/detect/read-dependency-tree'
+        extractModules = require '../lib/detect/extract-module-map'
 
     modules = null
     dev = memo().is -> false

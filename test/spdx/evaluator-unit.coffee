@@ -6,7 +6,7 @@ describe 'spdx evaluator', ->
     createEvaluator = null
 
     before 'require', ->
-        createEvaluator = require '../../src/spdx/evaluator'
+        createEvaluator = require '../../lib/spdx/evaluator'
 
     evaluate = null
     evalLicense = memo().is -> sinon.stub().returns false

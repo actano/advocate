@@ -6,7 +6,7 @@ describe 'guessing licenses of a module', ->
     guessModuleLicenseFactory = null
 
     before 'require', ->
-        guessModuleLicenseFactory = require '../../src/detect/guess-module-license'
+        guessModuleLicenseFactory = require '../../lib/detect/guess-module-license'
 
     sandbox = null
 

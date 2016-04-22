@@ -7,7 +7,7 @@ describe 'getting modules with violating license', ->
     extractModules = null
 
     before 'require', ->
-        extractModules = require '../../src/detect/extract-module-map'
+        extractModules = require '../../lib/detect/extract-module-map'
 
     it 'excludes root module from result', ->
         npmModuleMap =

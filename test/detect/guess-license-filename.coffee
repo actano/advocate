@@ -5,7 +5,7 @@ describe 'guess licenses from license file name', ->
     guessLicenseFilename = null
 
     before 'require', ->
-        guessLicenseFilename = require '../../src/detect/guess-license-filename'
+        guessLicenseFilename = require '../../lib/detect/guess-license-filename'
 
     it 'guess no license', ->
         filename = 'ReadMe.txt'
