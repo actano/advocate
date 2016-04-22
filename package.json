@@ -20,7 +20,7 @@
     "test": "mocha test/index.coffee",
     "prepublish": "make"
   },
-  "author": "",
+  "author": "Actano GmbH",
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.3.5",
