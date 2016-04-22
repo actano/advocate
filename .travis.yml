@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '0.12'
+- '5.10.1'
 deploy:
   provider: npm
   email: marcus.mennemeier@actano.de
