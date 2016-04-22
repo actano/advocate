@@ -173,7 +173,7 @@ describe 'module whitelist check', ->
                 licenseDescriptor: ['JSON', 'BSD']
             ]
 
-            it 'returns true for matching array', ->
+            it 'returns true for matching array with different order', ->
                 module =
                     name: 'module1'
                     version: '1'
