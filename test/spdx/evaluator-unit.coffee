@@ -122,6 +122,16 @@ describe 'spdx evaluator', ->
             evalLicense().withArgs('B').returns true
             expect(evaluate ast).to.be.true
 
+    describe 'binary node: unknown conjunction', ->
+        ast = null
+
+        beforeEach ->
+            ast =
+                conjunction: 'erroneous-conjunction'
+
+        it 'should throw error if getting unknown conjunction', ->
+            expect(-> evaluate ast).to.throw Error
+
     describe 'nested ast', ->
         ast = null
 
