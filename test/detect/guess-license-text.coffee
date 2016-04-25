@@ -5,7 +5,7 @@ describe 'guess licenses from licence/readme text', ->
     guessLicenseText = null
 
     before 'require', ->
-        guessLicenseText = require '../../lib/detect/guess-license-text'
+        guessLicenseText = require '../../src/detect/guess-license-text'
 
     it 'guess no license', ->
         text = '... MIT ...'

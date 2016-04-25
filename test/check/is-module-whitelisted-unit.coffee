@@ -8,7 +8,7 @@ describe 'module whitelist check', ->
     isModuleWhitelisted = null
 
     beforeEach ->
-        isModuleWhitelisted = require('../../lib/check/is-module-whitelisted') moduleWhitelist()
+        isModuleWhitelisted = require('../../src/check/is-module-whitelisted') moduleWhitelist()
 
     describe 'whitelist contains matching module', ->
 

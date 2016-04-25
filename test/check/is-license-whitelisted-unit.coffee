@@ -9,7 +9,7 @@ describe 'license whitelist check', ->
     isLicenseWhitelisted = null
 
     beforeEach ->
-        isLicenseWhitelisted = require('../../lib/check/is-license-whitelisted') licenseWhitelist(), exceptionWhitelist()
+        isLicenseWhitelisted = require('../../src/check/is-license-whitelisted') licenseWhitelist(), exceptionWhitelist()
 
     describe 'simple license name', ->
 
