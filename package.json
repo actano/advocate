@@ -1,7 +1,7 @@
 {
   "name": "advocate",
   "version": "0.0.7",
-  "description": "",
+  "description": "Check licenses of installed dependencies and their transitive dependencies and compare them to a give whitelist.",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
