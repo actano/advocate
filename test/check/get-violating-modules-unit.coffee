@@ -29,10 +29,13 @@ describe 'getting modules with violating license', ->
         moduleMap.is ->
             'module1@1':
                 licenseDescriptor: 'MIT'
+                explicitName: 'module1@1'
             'module2@1':
                 licenseDescriptor: 'JSON'
+                explicitName: 'module2@1'
             'module3@1':
                 licenseDescriptor: 'FOO'
+                explicitName: 'module3@1'
 
         it 'should return list of modules without whitelisted license', ->
             expect(map 'explicitName', result).to.have.members [
@@ -58,8 +61,10 @@ describe 'getting modules with violating license', ->
         moduleMap.is ->
             'module1@1':
                 licenseDescriptor: 'MIT AND JSON'
+                explicitName: 'module1@1'
             'module2@1':
                 licenseDescriptor: 'MIT OR JSON'
+                explicitName: 'module2@1'
 
         it 'should return list of modules without whitelisted license', ->
             expect(result).to.deep.equal {

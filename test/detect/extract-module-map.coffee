@@ -251,3 +251,18 @@ describe 'getting modules with violating license', ->
             expect(moduleMap).to.not.have.property 'A_1@1'
             expect(moduleMap).to.have.property 'A_1_1@1'
 
+
+    describe 'explicitName', ->
+
+        it 'should have correct explicitName property', ->
+            npmModuleMap =
+                name: 'A'
+                version: '1'
+                dependencies:
+                    A_1:
+                        name: 'A_1'
+                        version: 1
+
+            moduleMap = extractModules [npmModuleMap]
+
+            expect(moduleMap['A_1@1']).to.have.property 'explicitName', 'A_1@1'

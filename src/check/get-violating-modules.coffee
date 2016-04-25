@@ -27,8 +27,6 @@ _addOtherUsedVersions = curry (moduleByNameByVersion, module) ->
         otherUsedVersions: byVersion
 
 module.exports = curry (licenseWhitelist, exceptionWhitelist, moduleWhitelist, moduleMap) ->
-    toModuleList = mapValues (properties, explicitName) -> shallowCopy properties, {explicitName}
-
     isModuleLicenseWhitelisted = flow(
         property 'licenseDescriptor'
         isLicenseWhitelisted licenseWhitelist, exceptionWhitelist
@@ -37,7 +35,6 @@ module.exports = curry (licenseWhitelist, exceptionWhitelist, moduleWhitelist, m
     moduleByNameByVersion = _groupByNameByVersion moduleMap
 
     getViolatingModules = flow(
-        toModuleList
         omitBy isModuleLicenseWhitelisted
         omitBy isModuleWhitelisted moduleWhitelist
         mapValues _addOtherUsedVersions moduleByNameByVersion

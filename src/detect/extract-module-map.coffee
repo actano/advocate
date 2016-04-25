@@ -33,6 +33,7 @@ _mapModule = (module, parents) ->
 
     return {
         name: module.name
+        explicitName: _getExplicitModuleName module
         version: module.version
         licenseDescriptor
         isLicenseGuessed
