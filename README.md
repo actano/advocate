@@ -2,6 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/advocate.svg)](https://www.npmjs.com/package/advocate)
 [![Build Status](https://travis-ci.org/actano/advocate.svg?branch=master)](https://travis-ci.org/actano/advocate)
+[![Coverage Status](https://coveralls.io/repos/github/actano/advocate/badge.svg?branch=master)](https://coveralls.io/github/actano/advocate?branch=master)
 [![Dependency Status](https://david-dm.org/actano/advocate.svg)](https://david-dm.org/actano/advocate)
 [![devDependency Status](https://david-dm.org/actano/advocate/dev-status.svg)](https://david-dm.org/actano/advocate#info=devDependencies)
 [![License MIT](https://img.shields.io/github/license/actano/advocate.svg)](https://github.com/actano/advocate/blob/master/LICENSE)
