@@ -60,6 +60,13 @@ describe 'spdx evaluator', ->
             evalException().withArgs('E').returns true
             expect(evaluate ast).to.be.true
 
+    describe 'leaf node: unknown ast node', ->
+        ast = {}
+
+        it 'should throw error if getting unknown node', ->
+            expect(-> evaluate ast).to.throw Error
+
+
     describe 'binary node: "and" conjunction', ->
         ast = null
 
