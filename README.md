@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/actano/advocate.svg?branch=master)](https://travis-ci.org/actano/advocate)
 [![Dependency Status](https://david-dm.org/actano/advocate.svg)](https://david-dm.org/actano/advocate)
 [![devDependency Status](https://david-dm.org/actano/advocate/dev-status.svg)](https://david-dm.org/actano/advocate#info=devDependencies)
+[![License MIT](https://img.shields.io/github/license/actano/advocate.svg)](https://github.com/actano/advocate/blob/master/LICENSE)
 
 Your advocate doesn't let you down. He checks the licenses of all npm modules of your project and their transitive dependencies and compares them to a given whitelist.
 
