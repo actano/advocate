@@ -1,6 +1,8 @@
 language: node_js
 node_js:
 - 5.10.1
+after_success:
+  - 'cat ./coverage/lcov.info | ./node_modules/.bin/coveralls'
 deploy:
   provider: npm
   email: marcus.mennemeier@actano.de
