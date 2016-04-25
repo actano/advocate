@@ -2,6 +2,12 @@
   "name": "advocate",
   "version": "0.0.7",
   "description": "Check licenses of installed dependencies and their transitive dependencies and compare them to a give whitelist.",
+  "license": "MIT",
+  "author": "Actano GmbH",
+  "scripts": {
+    "test": "make && mocha test/index.coffee",
+    "prepublish": "make"
+  },
   "main": "lib/index.js",
   "repository": {
     "type": "git",
@@ -16,12 +22,6 @@
     "lib": "lib",
     "test": "test"
   },
-  "scripts": {
-    "test": "make && mocha test/index.coffee",
-    "prepublish": "make"
-  },
-  "author": "Actano GmbH",
-  "license": "MIT",
   "dependencies": {
     "bluebird": "^3.3.5",
     "lodash": "^4.11.1",
