@@ -5,8 +5,9 @@
   "license": "MIT",
   "author": "Actano GmbH",
   "scripts": {
-    "test": "make && mocha test/index.coffee",
-    "prepublish": "make"
+    "test": "mocha test/index.coffee",
+    "build": "coffee -o lib -c src",
+    "prepublish": "npm run build"
   },
   "main": "lib/index.js",
   "repository": {
