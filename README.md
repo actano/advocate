@@ -62,6 +62,7 @@ Example:
 ```
 "module1@1.0.0": {
   "name": "module1",
+  "explicitName": "module1@1.0.0",
   "version": "1.0.0",
   "licenseDescriptor": "MIT",
   "isLicenseGuessed": false,
