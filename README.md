@@ -73,7 +73,14 @@ Example:
     [
       "module2@1.3.0"
     ]
-  ]
+  ],
+  "otherUsedVersions": {
+    "1.5.2":
+      "explicitName": "module1@1.5.2"
+      "name": "module1"
+      "version": "1.5.2"
+      "licenseDescriptor": "JSON"
+  }
 }
 ```
 ### type Whitelist
