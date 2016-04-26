@@ -59,7 +59,7 @@ string. module@version
 ### type Module
 
 Example:
-```
+```javascript
 "module1@1.0.0": {
   "name": "module1",
   "explicitName": "module1@1.0.0",
