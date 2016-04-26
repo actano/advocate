@@ -113,13 +113,23 @@ string
 
 ```javascript
 {
-    dev?: boolean, // default: false
     path?: string // default: cwd
+    dev?: boolean, // default: false
 }
 ```
-By default, `dev` is set to `false`. This means `advocate` only respects your production dependencies and their transitive ones.
 
-If `dev` is set to `true`, `advocate` will only respect your `devDependencies` and their transitive production dependencies.
+#### path
 
-`advocate` will _never_ respect transitive development dependencies.
+Specifies the directory of the npm module whose dependencies will be analyzed by `advocate`.
 
+Defaults to the current working directory.
+
+#### dev
+
+Specifies whether to analyze production or development dependencies.
+
+A value of `false` means `advocate` only respects your production dependencies and their transitive ones.
+
+A value of `true` means `advocate` will only respect your `devDependencies` and their transitive production dependencies. `advocate` will _never_ respect transitive `devDependencies`.
+
+Defaults to `false`.
