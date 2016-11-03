@@ -9,6 +9,8 @@
 
 Your advocate doesn't let you down. He analyzes the licenses of all installed npm modules of your project and their transitive dependencies and compares them to a given whitelist.
 
+*Warning: This package makes use of `npm list` internally. Therefore, `yarn` is currently not supported.*
+
 ## Installation
 
 ```bash
