@@ -8,6 +8,7 @@ map = require 'lodash/fp/map'
 
 advocate = require '../src/index'
 testDataPathA = path.join __dirname, 'integration-data/a'
+testDataPathB = path.join __dirname, 'integration-data/b'
 
 describe 'advocate integration test', ->
 
@@ -98,3 +99,15 @@ describe 'advocate integration test', ->
 
             it 'doesn\'t contains non-violating modules', ->
                 expect(map 'explicitName', violatingModules).to.not.contain 'b@0.0.1'
+
+    describe 'yarn.lock present', ->
+
+        it 'should not throw error from npm list', Promise.coroutine ->
+            whitelist =
+                licenses: ['MIT', 'JSON']
+
+            options =
+                dev: false
+                path: testDataPathB
+
+            {allModules} = yield advocate whitelist, options

@@ -1,0 +1,9 @@
+{
+  "name": "a",
+  "version": "0.0.1",
+  "license": "MIT",
+  "dependencies": {
+    "b": "^0.0.1",
+    "not-existent": "^0.0.1"
+  }
+}
