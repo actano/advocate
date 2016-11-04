@@ -11,15 +11,16 @@ execFileDangerously = (command, args, options) ->
         childProcess.execFile command, args, options, (error, stdout, stderr) ->
             resolve [stdout, stderr]
 
-isYarnInUse = ->
-    return fs.existsSync "#{process.cwd()}/yarn.lock"
+isYarnInUse = (cwd) ->
+    cwd = process.cwd() unless cwd?
+    return fs.existsSync "#{cwd}/yarn.lock"
 
 module.exports = Promise.coroutine (dev = false, modulePath) ->
     options =
         maxBuffer: 26 * 1024 * 1024
     options.cwd = modulePath if modulePath?
 
-    if isYarnInUse()
+    if isYarnInUse modulePath
         console.log 'yarn.lock found. Suppressing errors coming from npm ls.'
         _execFile = execFileDangerously
     else
