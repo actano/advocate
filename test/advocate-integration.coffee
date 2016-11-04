@@ -7,7 +7,8 @@ path = require 'path'
 map = require 'lodash/fp/map'
 
 advocate = require '../src/index'
-testDataPath = path.join __dirname, 'integration-data/a'
+testDataPathA = path.join __dirname, 'integration-data/a'
+testDataPathB = path.join __dirname, 'integration-data/b'
 
 describe 'advocate integration test', ->
 
@@ -15,7 +16,7 @@ describe 'advocate integration test', ->
 
         context 'with no given parameters', ->
             it 'returns without error', Promise.coroutine ->
-                options = {path: testDataPath}
+                options = {path: testDataPathA}
                 {allModules, violatingModules} = yield advocate()
 
                 expect(violatingModules).to.be.an 'object'
@@ -23,8 +24,8 @@ describe 'advocate integration test', ->
 
         context 'with no given whitelist', ->
             it 'returns all production dependencies for given path', Promise.coroutine ->
-                options = {path: testDataPath}
-                {allModules, violatingModules} = yield advocate null, {path: testDataPath}
+                options = {path: testDataPathA}
+                {allModules, violatingModules} = yield advocate null, {path: testDataPathA}
 
                 expect(map 'explicitName', violatingModules).to.have.members [
                     'b@0.0.1'
@@ -33,7 +34,7 @@ describe 'advocate integration test', ->
 
         context 'with no given license whitelist', ->
             it 'returns all violating dependencies for given path', Promise.coroutine ->
-                options = {path: testDataPath}
+                options = {path: testDataPathA}
                 whitelist =
                     modules: [
                         name: 'c'
@@ -41,7 +42,7 @@ describe 'advocate integration test', ->
                         licenseDescriptor: 'Apache-2.0 WITH LZMA-exception'
                     ]
 
-                {allModules, violatingModules} = yield advocate whitelist, {path: testDataPath}
+                {allModules, violatingModules} = yield advocate whitelist, {path: testDataPathA}
 
                 expect(map 'explicitName', violatingModules).to.have.members [
                     'b@0.0.1'
@@ -63,7 +64,7 @@ describe 'advocate integration test', ->
 
             options =
                 dev: false
-                path: testDataPath
+                path: testDataPathA
 
             {allModules, violatingModules} = yield advocate whitelist, options
 
@@ -98,3 +99,15 @@ describe 'advocate integration test', ->
 
             it 'doesn\'t contains non-violating modules', ->
                 expect(map 'explicitName', violatingModules).to.not.contain 'b@0.0.1'
+
+    describe 'yarn.lock present', ->
+
+        it 'should not throw error from npm list', Promise.coroutine ->
+            whitelist =
+                licenses: ['MIT', 'JSON']
+
+            options =
+                dev: false
+                path: testDataPathB
+
+            {allModules} = yield advocate whitelist, options
