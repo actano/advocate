@@ -5,9 +5,10 @@
   "license": "MIT",
   "author": "Actano GmbH",
   "scripts": {
-    "test": "mocha test/index.coffee && istanbul report text-summary lcov",
-    "build": "coffee -o lib -c src",
-    "prepublish": "npm run build"
+    "test": "eslint src test && nyc --reporter=text-summary --reporter=lcov mocha test/index.js",
+    "build": "babel src --out-dir lib",
+    "lint": "eslint src test",
+    "prepublishOnly": "rm -rf lib && babel src --out-dir lib"
   },
   "main": "lib/index.js",
   "repository": {
@@ -23,20 +24,29 @@
     "lib": "lib",
     "test": "test"
   },
+  "engines": {
+    "node": ">=6"
+  },
   "dependencies": {
     "bluebird": "^3.3.5",
     "lodash": "^4.17.1",
     "spdx": "^0.5.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
     "chai-subset": "^1.2.2",
-    "coffee-coverage": "^1.0.1",
-    "coffee-script": "^1.10.0",
     "coveralls": "^2.11.9",
+    "eslint": "^4.6.0",
+    "eslint-config-actano-base": "^2.1.0",
+    "eslint-plugin-import": "^2.7.0",
     "istanbul": "^0.4.3",
     "memo-is": "0.0.2",
     "mocha": "^3.0.0",
-    "sinon": "^1.17.3"
+    "nyc": "^11.1.0",
+    "sinon": "^3.2.1"
   }
 }

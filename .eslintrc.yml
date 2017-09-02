@@ -1,0 +1,6 @@
+extends: actano-base
+overrides:
+- files:
+  - 'test/**/*.js'
+  env:
+    mocha: true

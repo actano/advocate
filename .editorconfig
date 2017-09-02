@@ -1,0 +1,20 @@
+# This file is for unifying the coding style for different editors and IDEs
+# Download a plugin for your editor at editorconfig.org.
+
+root = true
+
+
+[*]
+charset = utf-8
+
+[**.{js,json,md,yaml,yml}]
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[**.{coffee}]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
