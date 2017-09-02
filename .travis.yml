@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- 5.10.1
+- 6.11.1
 after_success:
   - 'cat ./coverage/lcov.info | ./node_modules/.bin/coveralls'
 deploy:

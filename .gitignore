@@ -1,7 +1,5 @@
 lib/
 node_modules/
 coverage/
-.*
-!.gitignore
-!.npmignore
 *.swp
+.nyc_output/
