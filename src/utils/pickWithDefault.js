@@ -1,12 +1,18 @@
-curry = require 'lodash/curry'
-pick = require 'lodash/fp/pick'
-defaults = require 'lodash/fp/defaults'
-flow = require 'lodash/flow'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+import curry from 'lodash/curry';
+import pick from 'lodash/fp/pick';
+import defaults from 'lodash/fp/defaults';
+import flow from 'lodash/flow';
 
-toObject = require './toObject'
+import toObject from './toObject';
 
-module.exports = curry (attributes, defaultValue, object) ->
+export default curry((attributes, defaultValue, object) =>
     flow(
-        pick attributes
-        defaults toObject(defaultValue, attributes)
-    ) object
+        pick(attributes),
+        defaults(toObject(defaultValue, attributes))
+    )(object)
+);

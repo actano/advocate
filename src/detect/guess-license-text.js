@@ -1,115 +1,133 @@
-flow = require 'lodash/flow'
-pickBy = require 'lodash/fp/pickBy'
-map = require 'lodash/fp/map'
-some = require 'lodash/some'
-keys = require 'lodash/keys'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+import flow from 'lodash/flow';
+import pickBy from 'lodash/fp/pickBy';
+import map from 'lodash/fp/map';
+import some from 'lodash/some';
+import keys from 'lodash/keys';
 
-specialWords = [
+const specialWords = [
     'licen[sc]e'
-]
+];
 
-licensePatternOfText = (text) ->
-    pattern = ''
-    isRegExpChar = false
-    for char in text.replace /\s+/g, ' '
-        if isRegExpChar
-            if char is '~'
-                isRegExpChar = false
-            else
-                pattern += char
-        else
-            switch
-                when char is '~'
-                    isRegExpChar = true
-                when char.match /[A-Za-z]/
-                    pattern += char
-                when char.match /\s/
-                    pattern += '\\s+'
-                when char.match /[0-9]/
-                    pattern += "\\s*#{char}?\\s*"
-                else
-                    pattern += "\\s*\\#{char}?\\s*"
+const licensePatternOfText = function(text) {
+    let pattern = '';
+    let isRegExpChar = false;
+    for (let char of Array.from(text.replace(/\s+/g, ' '))) {
+        if (isRegExpChar) {
+            if (char === '~') {
+                isRegExpChar = false;
+            } else {
+                pattern += char;
+            }
+        } else {
+            switch (false) {
+                case char !== '~':
+                    isRegExpChar = true;
+                    break;
+                case !char.match(/[A-Za-z]/):
+                    pattern += char;
+                    break;
+                case !char.match(/\s/):
+                    pattern += '\\s+';
+                    break;
+                case !char.match(/[0-9]/):
+                    pattern += `\\s*${char}?\\s*`;
+                    break;
+                default:
+                    pattern += `\\s*\\${char}?\\s*`;
+            }
+        }
+    }
 
-    for specialWord in specialWords
-        pattern = pattern.replace new RegExp(specialWord, 'ig'), specialWord
+    for (let specialWord of Array.from(specialWords)) {
+        pattern = pattern.replace(new RegExp(specialWord, 'ig'), specialWord);
+    }
 
-    return new RegExp pattern, 'i'
+    return new RegExp(pattern, 'i');
+};
 
-licenseMatchingMap =
+const licenseMatchingMap = {
     'BSD': [
         /\bBSD\s+Licen[sc]e\b/i
-    ]
+    ],
     'Apache-2.0': [
         /\bApache\s+Licen[sc]e\b([\s\S])*Version 2\.0/i
-    ]
+    ],
     'MIT': [
-        /\bMIT\s+Licen[sc]e(d)?\b/i
-        /\bLicen[sc]e(:)?\s+MIT\b/i
-        licensePatternOfText '''
-            Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-            documentation files (the "Software"), to deal in the Software without restriction, including without
-            limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-            the Software, and to permit persons to whom the Software is furnished to do so, subject to the following
-            conditions:
+        /\bMIT\s+Licen[sc]e(d)?\b/i,
+        /\bLicen[sc]e(:)?\s+MIT\b/i,
+        licensePatternOfText(`\
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without
+limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so, subject to the following
+conditions:
 
-            The above copyright notice and this permission notice shall be included in all copies or substantial
-            portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
 
-            THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-            LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-            IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-            WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-            OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-        '''
-    ]
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\
+`
+        )
+    ],
     'Unlicense': [
         /unlicense\.org/i
-    ]
+    ],
     'Public-Domain': [
         /\bPublic\s+Domain\b/i
-    ]
+    ],
     'WTFPL': [
         /\bDO\s+WHAT\s+THE\s+FUCK\s+YOU\s+WANT\s+TO\s+PUBLIC\s+LICENSE\b/i
-    ]
+    ],
     '#Chris-Andrews': [
-        licensePatternOfText '''
-            Copyright ~[0-9]{4}~ Chris Andrews. All rights reserved.
+        licensePatternOfText(`\
+Copyright ~[0-9]{4}~ Chris Andrews. All rights reserved.
 
-            Redistribution and use in source and binary forms, with or without modification, are
-            permitted provided that the following conditions are met:
+Redistribution and use in source and binary forms, with or without modification, are
+permitted provided that the following conditions are met:
 
-               1. Redistributions of source code must retain the above copyright notice, this list of
-                  conditions and the following disclaimer.
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
 
-               2. Redistributions in binary form must reproduce the above copyright notice, this list
-                  of conditions and the following disclaimer in the documentation and/or other materials
-                  provided with the distribution.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list
+      of conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
 
-            THIS SOFTWARE IS PROVIDED BY CHRIS ANDREWS ``AS IS'' AND ANY EXPRESS OR IMPLIED
-            WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-            FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL CHRIS ANDREWS OR
-            CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-            CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-            SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-            ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-            NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-            ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-        '''
+THIS SOFTWARE IS PROVIDED BY CHRIS ANDREWS \`\`AS IS'' AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL CHRIS ANDREWS OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\
+`
+        )
     ]
+};
 
-module.exports = (text) ->
-    matchesText = (expression) -> expression.test text
+export default function(text) {
+    const matchesText = expression => expression.test(text);
 
-    someExpressionMatchesText = (regularExpressions) ->
-        some regularExpressions, matchesText
+    const someExpressionMatchesText = regularExpressions => some(regularExpressions, matchesText);
 
-    addSuffix = (license) ->
-        "#{license}*"
+    const addSuffix = license => `${license}*`;
 
-    guessLicenses = flow(
-        pickBy someExpressionMatchesText
-        keys
-        map addSuffix
-    )
+    const guessLicenses = flow(
+        pickBy(someExpressionMatchesText),
+        keys,
+        map(addSuffix)
+    );
 
-    return guessLicenses licenseMatchingMap
+    return guessLicenses(licenseMatchingMap);
+};

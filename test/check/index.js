@@ -1,3 +1,3 @@
-require './get-violating-modules-unit'
-require './is-license-whitelisted-unit'
-require './is-module-whitelisted-unit'
+import './get-violating-modules-unit';
+import './is-license-whitelisted-unit';
+import './is-module-whitelisted-unit';

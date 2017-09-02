@@ -1,11 +1,17 @@
-curry = require 'lodash/curry'
-flow = require 'lodash/flow'
-mapValues = require 'lodash/fp/mapValues'
-keyBy = require 'lodash/fp/keyBy'
-identity = require 'lodash/identity'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+import curry from 'lodash/curry';
+import flow from 'lodash/flow';
+import mapValues from 'lodash/fp/mapValues';
+import keyBy from 'lodash/fp/keyBy';
+import identity from 'lodash/identity';
 
-module.exports = curry (value, attributes) ->
+export default curry((value, attributes) =>
     flow(
-        keyBy identity
-        mapValues -> value
-    ) attributes
+        keyBy(identity),
+        mapValues(() => value)
+    )(attributes)
+);
