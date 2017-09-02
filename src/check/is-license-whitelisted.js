@@ -1,21 +1,29 @@
-spdx = require 'spdx'
-curry = require 'lodash/curry'
-{createEvaluator} = require '../spdx'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+import spdx from 'spdx';
+import curry from 'lodash/curry';
+import { createEvaluator } from '../spdx';
 
-module.exports = curry (licenseWhitelist, exceptionWhitelist, licenseDescription) ->
-    inWhitelist = (license) ->
-        license in licenseWhitelist
+export default curry(function(licenseWhitelist, exceptionWhitelist, licenseDescription) {
+    const inWhitelist = license => Array.from(licenseWhitelist).includes(license);
 
-    inExceptionWhitelist = (exception) ->
-        exception in exceptionWhitelist
+    const inExceptionWhitelist = exception => Array.from(exceptionWhitelist).includes(exception);
 
-    if Array.isArray licenseDescription
-        return licenseDescription.length > 0 and licenseDescription.some(inWhitelist)
+    if (Array.isArray(licenseDescription)) {
+        return (licenseDescription.length > 0) && licenseDescription.some(inWhitelist);
+    }
 
-    if licenseDescription? and spdx.valid(licenseDescription)
-        spdxAst = spdx.parse licenseDescription
-        evaluate = createEvaluator inWhitelist, inExceptionWhitelist
-        return evaluate spdxAst
+    if ((licenseDescription != null) && spdx.valid(licenseDescription)) {
+        const spdxAst = spdx.parse(licenseDescription);
+        const evaluate = createEvaluator(inWhitelist, inExceptionWhitelist);
+        return evaluate(spdxAst);
+    }
 
-    return inWhitelist licenseDescription
+    return inWhitelist(licenseDescription);
+});
 

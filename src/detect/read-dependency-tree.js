@@ -1,36 +1,48 @@
-fs = require 'fs'
-Promise = require 'bluebird'
-childProcess = require 'child_process'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+import fs from 'fs';
+import Promise from 'bluebird';
+import childProcess from 'child_process';
 
-execFile = Promise.promisify childProcess.execFile, multiArgs: true
+const execFile = Promise.promisify(childProcess.execFile, {multiArgs: true});
 
-# This function is intended to be used with yarn until a better option is available.
-# Its dangerous to use because its ignoring any errors.
-execFileDangerously = (command, args, options) ->
-    return new Promise (resolve, reject) ->
-        childProcess.execFile command, args, options, (error, stdout, stderr) ->
-            resolve [stdout, stderr]
+// This function is intended to be used with yarn until a better option is available.
+// Its dangerous to use because its ignoring any errors.
+const execFileDangerously = (command, args, options) =>
+    new Promise(function(resolve, reject) {
+        return childProcess.execFile(command, args, options, (error, stdout, stderr) => resolve([stdout, stderr]));})
+;
 
-isYarnInUse = (cwd) ->
-    cwd = process.cwd() unless cwd?
-    return fs.existsSync "#{cwd}/yarn.lock"
+const isYarnInUse = function(cwd) {
+    if (cwd == null) { cwd = process.cwd(); }
+    return fs.existsSync(`${cwd}/yarn.lock`);
+};
 
-module.exports = Promise.coroutine (dev = false, modulePath) ->
-    options =
-        maxBuffer: 26 * 1024 * 1024
-    options.cwd = modulePath if modulePath?
+export default Promise.coroutine(function*(dev, modulePath) {
+    let _execFile;
+    if (dev == null) { dev = false; }
+    const options =
+        {maxBuffer: 26 * 1024 * 1024};
+    if (modulePath != null) { options.cwd = modulePath; }
 
-    if isYarnInUse modulePath
-        console.log 'yarn.lock found. Suppressing errors coming from npm ls.'
-        _execFile = execFileDangerously
-    else
-        _execFile = execFile
+    if (isYarnInUse(modulePath)) {
+        console.log('yarn.lock found. Suppressing errors coming from npm ls.');
+        _execFile = execFileDangerously;
+    } else {
+        _execFile = execFile;
+    }
 
-    [stdout] = yield _execFile 'npm', [
-        'list'
-        '--json'
-        '--long'
-        if dev then '--dev' else '--prod'
-    ], options
+    const [stdout] = Array.from(yield _execFile('npm', [
+        'list',
+        '--json',
+        '--long',
+        dev ? '--dev' : '--prod'
+    ], options));
 
-    return JSON.parse stdout
+    return JSON.parse(stdout);
+});

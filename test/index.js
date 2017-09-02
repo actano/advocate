@@ -1,5 +1,5 @@
-require './spdx'
-require './detect'
-require './check'
-require './advocate-integration'
-require './detection-integration'
+import './spdx';
+import './detect';
+import './check';
+import './advocate-integration';
+import './detection-integration';

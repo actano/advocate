@@ -1,2 +1,2 @@
-module.exports =
-    createEvaluator: require './evaluator'
+export default 
+    {createEvaluator: require('./evaluator')};

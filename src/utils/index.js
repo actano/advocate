@@ -1,3 +1,6 @@
-module.exports
-    toObject: require './toObject'
-    pickWithDefault: require './pickWithDefault'
+let defaultExport = {};
+defaultExport({
+    toObject: require('./toObject'),
+    pickWithDefault: require('./pickWithDefault')
+});
+export default defaultExport;

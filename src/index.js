@@ -1,24 +1,27 @@
-Promise = require 'bluebird'
+import Promise from 'bluebird';
 
-{getViolatingModules} = require './check'
-{readDependencyTree, extractModules} = require './detect'
-defaults = require 'lodash/defaults'
+import { getViolatingModules } from './check';
+import { readDependencyTree, extractModules } from './detect';
+import defaults from 'lodash/defaults';
 
-module.exports = Promise.coroutine (whitelist, options) ->
-    options = defaults options,
-        dev: false
+export default Promise.coroutine(function*(whitelist, options) {
+    options = defaults(options, {
+        dev: false,
         path: null
+    }
+    );
 
-    whitelist = defaults whitelist,
-        licenses: []
-        licenseExceptions: []
+    whitelist = defaults(whitelist, {
+        licenses: [],
+        licenseExceptions: [],
         modules: []
+    });
 
-    dependencyTree = yield readDependencyTree options.dev, options.path
-    allModules = extractModules root: dependencyTree
-    violatingModules = getViolatingModules whitelist.licenses, whitelist.licenseExceptions, whitelist.modules, allModules
+    const dependencyTree = yield readDependencyTree(options.dev, options.path);
+    const allModules = extractModules({root: dependencyTree});
+    const violatingModules = getViolatingModules(whitelist.licenses, whitelist.licenseExceptions, whitelist.modules, allModules);
 
     return {
-        allModules
+        allModules,
         violatingModules
-    }
+    };});

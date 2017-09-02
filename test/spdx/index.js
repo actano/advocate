@@ -1,1 +1,1 @@
-require './evaluator-unit'
+import './evaluator-unit';

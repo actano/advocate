@@ -1,20 +1,28 @@
-{expect} = require 'chai'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+import { expect } from 'chai';
 
-describe 'guess licenses from licence/readme text', ->
+describe('guess licenses from licence/readme text', function() {
 
-    guessLicenseText = null
+    let guessLicenseText = null;
 
-    before 'require', ->
-        guessLicenseText = require '../../src/detect/guess-license-text'
+    before('require', () => guessLicenseText = require('../../src/detect/guess-license-text'));
 
-    it 'guess no license', ->
-        text = '... MIT ...'
-        expect(guessLicenseText text).to.deep.equal []
+    it('guess no license', function() {
+        const text = '... MIT ...';
+        return expect(guessLicenseText(text)).to.deep.equal([]);
+});
 
-    it 'guess single license', ->
-        text = '... MIT License ...'
-        expect(guessLicenseText text).to.deep.equal ['MIT*']
+    it('guess single license', function() {
+        const text = '... MIT License ...';
+        return expect(guessLicenseText(text)).to.deep.equal(['MIT*']);
+});
 
-    it 'guess multiple licenses', ->
-        text = '... MIT License ... BSD License ... Apache License Version 2.0 ...'
-        expect(guessLicenseText text).to.have.members ['MIT*', 'BSD*', 'Apache-2.0*']
+    return it('guess multiple licenses', function() {
+        const text = '... MIT License ... BSD License ... Apache License Version 2.0 ...';
+        return expect(guessLicenseText(text)).to.have.members(['MIT*', 'BSD*', 'Apache-2.0*']);
+});
+});

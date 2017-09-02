@@ -1,4 +1,4 @@
-require './extract-module-map'
-require './guess-license-filename'
-require './guess-license-text'
-require './guess-module-license'
+import './extract-module-map';
+import './guess-license-filename';
+import './guess-license-text';
+import './guess-module-license';
