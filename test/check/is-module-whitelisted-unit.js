@@ -1,241 +1,240 @@
+/* eslint-disable
+    global-require,
+    no-return-assign,
+    no-unused-expressions,
+    no-unused-vars,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-import sinon from 'sinon';
-import { expect } from 'chai';
-import memo from 'memo-is';
+import sinon from 'sinon'
+import { expect } from 'chai'
+import memo from 'memo-is'
 
-describe('module whitelist check', function() {
+describe('module whitelist check', () => {
+  const moduleWhitelist = memo().is(() => [])
+  let isModuleWhitelisted = null
 
-    const moduleWhitelist = memo().is(() => []);
-    let isModuleWhitelisted = null;
+  beforeEach(() => isModuleWhitelisted = require('../../src/check/is-module-whitelisted')(moduleWhitelist()))
 
-    beforeEach(() => isModuleWhitelisted = require('../../src/check/is-module-whitelisted')(moduleWhitelist()));
+  describe('whitelist contains matching module', () => {
+    moduleWhitelist.is(() => [{
+      name: 'module1',
+      version: '1',
+      licenseDescriptor: 'BSD',
+    },
+    {
+      name: 'module2',
+      version: '3',
+      licenseDescriptor: 'MIT',
+    },
+    ])
 
-    describe('whitelist contains matching module', function() {
+    it('returns true', () => {
+      const module = {
+        name: 'module2',
+        version: '3',
+        licenseDescriptor: 'MIT',
+      }
 
-        moduleWhitelist.is(() => [{
-            name: 'module1',
-            version: '1',
-            licenseDescriptor: 'BSD'
+      expect(isModuleWhitelisted(module)).to.be.true
+    })
+  })
+
+  describe('given module has a mismatching property', () => {
+    moduleWhitelist.is(() => [{
+      name: 'module1',
+      version: '1',
+      licenseDescriptor: 'BSD',
+    },
+    ])
+
+    it('returns false on mismatching license', () => {
+      const module = {
+        name: 'module1',
+        version: '1',
+        licenseDescriptor: 'MIT',
+      }
+
+      expect(isModuleWhitelisted(module)).to.be.false
+    })
+
+    it('returns false on mismatching version', () => {
+      const module = {
+        name: 'module1',
+        version: '2',
+        licenseDescriptor: 'BSD',
+      }
+
+      expect(isModuleWhitelisted(module)).to.be.false
+    })
+
+    it('returns false on mismatching module name', () => {
+      const module = {
+        name: 'module2',
+        version: '1',
+        licenseDescriptor: 'BSD',
+      }
+
+      expect(isModuleWhitelisted(module)).to.be.false
+    })
+  })
+
+  describe('given module has a missing property', () => {
+    moduleWhitelist.is(() => [{
+      name: 'module1',
+      version: '1',
+      licenseDescriptor: 'BSD',
+    },
+    ])
+
+    it('returns false on missing license', () => {
+      const module = {
+        name: 'module1',
+        version: '1',
+      }
+
+      expect(isModuleWhitelisted(module)).to.be.false
+    })
+
+    it('returns false on missing version', () => {
+      const module = {
+        name: 'module1',
+        licenseDescriptor: 'BSD',
+      }
+
+      expect(isModuleWhitelisted(module)).to.be.false
+    })
+
+    it('returns false on missing name', () => {
+      const module = {
+        version: '1',
+        licenseDescriptor: 'BSD',
+      }
+
+      expect(isModuleWhitelisted(module)).to.be.false
+    })
+  })
+
+  describe('license property', () => {
+    describe('simple string in whitelisted license', () => {
+      moduleWhitelist.is(() => [{
+        name: 'module1',
+        version: '1',
+        licenseDescriptor: 'BSD',
+      },
+      ])
+
+      it('returns true for array with single matching license', () => {
+        const module = {
+          name: 'module1',
+          version: '1',
+          licenseDescriptor: ['BSD'],
         }
-        , {
-            name: 'module2',
-            version: '3',
-            licenseDescriptor: 'MIT'
+
+        expect(isModuleWhitelisted(module)).to.be.true
+      })
+
+      it('returns false for array with multiple licenses', () => {
+        const module = {
+          name: 'module1',
+          version: '1',
+          licenseDescriptor: ['BSD', 'MIT'],
         }
-        ] );
 
-        return it('returns true', function() {
-            const module = {
-                name: 'module2',
-                version: '3',
-                licenseDescriptor: 'MIT'
-            };
+        expect(isModuleWhitelisted(module)).to.be.false
+      })
+    })
 
-            return expect(isModuleWhitelisted(module)).to.be.true;
-        });
-    });
+    describe('null in whitelisted license', () => {
+      moduleWhitelist.is(() => [{
+        name: 'module1',
+        version: '1',
+        licenseDescriptor: null,
+      },
+      ])
 
-    describe('given module has a mismatching property', function() {
-
-        moduleWhitelist.is(() => [{
-            name: 'module1',
-            version: '1',
-            licenseDescriptor: 'BSD'
+      it('returns true for matching license', () => {
+        const module = {
+          name: 'module1',
+          version: '1',
+          licenseDescriptor: null,
         }
-        ] );
 
-        it('returns false on mismatching license', function() {
-            const module = {
-                name: 'module1',
-                version: '1',
-                licenseDescriptor: 'MIT'
-            };
+        expect(isModuleWhitelisted(module)).to.be.true
+      })
 
-            return expect(isModuleWhitelisted(module)).to.be.false;
-        });
-
-        it('returns false on mismatching version', function() {
-            const module = {
-                name: 'module1',
-                version: '2',
-                licenseDescriptor: 'BSD'
-            };
-
-            return expect(isModuleWhitelisted(module)).to.be.false;
-        });
-
-        return it('returns false on mismatching module name', function() {
-            const module = {
-                name: 'module2',
-                version: '1',
-                licenseDescriptor: 'BSD'
-            };
-
-            return expect(isModuleWhitelisted(module)).to.be.false;
-        });
-    });
-
-    describe('given module has a missing property', function() {
-
-        moduleWhitelist.is(() => [{
-            name: 'module1',
-            version: '1',
-            licenseDescriptor: 'BSD'
+      it('returns false for not matching license', () => {
+        const module = {
+          name: 'module1',
+          version: '1',
+          licenseDescriptor: 'BSD',
         }
-        ] );
 
-        it('returns false on missing license', function() {
-            const module = {
-                name: 'module1',
-                version: '1'
-            };
+        expect(isModuleWhitelisted(module)).to.be.false
+      })
+    })
 
-            return expect(isModuleWhitelisted(module)).to.be.false;
-        });
+    describe('single element array in whitelisted license', () => {
+      moduleWhitelist.is(() => [{
+        name: 'module1',
+        version: '1',
+        licenseDescriptor: ['BSD'],
+      },
+      ])
 
-        it('returns false on missing version', function() {
-            const module = {
-                name: 'module1',
-                licenseDescriptor: 'BSD'
-            };
+      it('returns true for matching array', () => {
+        const module = {
+          name: 'module1',
+          version: '1',
+          licenseDescriptor: ['BSD'],
+        }
 
-            return expect(isModuleWhitelisted(module)).to.be.false;
-        });
+        expect(isModuleWhitelisted(module)).to.be.true
+      })
 
-        return it('returns false on missing name', function() {
-            const module = {
-                version: '1',
-                licenseDescriptor: 'BSD'
-            };
+      it('returns true for single matchting value', () => {
+        const module = {
+          name: 'module1',
+          version: '1',
+          licenseDescriptor: 'BSD',
+        }
 
-            return expect(isModuleWhitelisted(module)).to.be.false;
-        });
-    });
+        expect(isModuleWhitelisted(module)).to.be.true
+      })
+    })
 
-    return describe('license property', function() {
+    describe('multiple element array in whitelisted license', () => {
+      moduleWhitelist.is(() => [{
+        name: 'module1',
+        version: '1',
+        licenseDescriptor: ['JSON', 'BSD'],
+      },
+      ])
 
-        describe('simple string in whitelisted license', function() {
+      it('returns true for matching array with different order', () => {
+        const module = {
+          name: 'module1',
+          version: '1',
+          licenseDescriptor: ['BSD', 'JSON'],
+        }
 
-            moduleWhitelist.is(() => [{
-                name: 'module1',
-                version: '1',
-                licenseDescriptor: 'BSD'
-            }
-            ] );
+        expect(isModuleWhitelisted(module)).to.be.true
+      })
 
-            it('returns true for array with single matching license', function() {
-                const module = {
-                    name: 'module1',
-                    version: '1',
-                    licenseDescriptor: ['BSD']
-                };
+      it('returns false for different array', () => {
+        const module = {
+          name: 'module1',
+          version: '1',
+          licenseDescriptor: ['BSD', 'MIT'],
+        }
 
-                return expect(isModuleWhitelisted(module)).to.be.true;
-            });
-
-            return it('returns false for array with multiple licenses', function() {
-                const module = {
-                    name: 'module1',
-                    version: '1',
-                    licenseDescriptor: ['BSD', 'MIT']
-                };
-
-                return expect(isModuleWhitelisted(module)).to.be.false;
-            });
-        });
-
-        describe('null in whitelisted license', function() {
-
-            moduleWhitelist.is(() => [{
-                name: 'module1',
-                version: '1',
-                licenseDescriptor: null
-            }
-            ] );
-
-            it('returns true for matching license', function() {
-                const module = {
-                    name: 'module1',
-                    version: '1',
-                    licenseDescriptor: null
-                };
-
-                return expect(isModuleWhitelisted(module)).to.be.true;
-            });
-
-            return it('returns false for not matching license', function() {
-                const module = {
-                    name: 'module1',
-                    version: '1',
-                    licenseDescriptor: 'BSD'
-                };
-
-                return expect(isModuleWhitelisted(module)).to.be.false;
-            });
-        });
-
-        describe('single element array in whitelisted license', function() {
-
-            moduleWhitelist.is(() => [{
-                name: 'module1',
-                version: '1',
-                licenseDescriptor: ['BSD']
-            }
-            ] );
-
-            it('returns true for matching array', function() {
-                const module = {
-                    name: 'module1',
-                    version: '1',
-                    licenseDescriptor: ['BSD']
-                };
-
-                return expect(isModuleWhitelisted(module)).to.be.true;
-            });
-
-            return it('returns true for single matchting value', function() {
-                const module = {
-                    name: 'module1',
-                    version: '1',
-                    licenseDescriptor: 'BSD'
-                };
-
-                return expect(isModuleWhitelisted(module)).to.be.true;
-            });
-        });
-
-        return describe('multiple element array in whitelisted license', function() {
-
-            moduleWhitelist.is(() => [{
-                name: 'module1',
-                version: '1',
-                licenseDescriptor: ['JSON', 'BSD']
-            }
-            ] );
-
-            it('returns true for matching array with different order', function() {
-                const module = {
-                    name: 'module1',
-                    version: '1',
-                    licenseDescriptor: ['BSD', 'JSON']
-                };
-
-                return expect(isModuleWhitelisted(module)).to.be.true;
-            });
-
-            return it('returns false for different array', function() {
-                const module = {
-                    name: 'module1',
-                    version: '1',
-                    licenseDescriptor: ['BSD', 'MIT']
-                };
-
-                return expect(isModuleWhitelisted(module)).to.be.false;
-            });
-        });
-    });
-});
+        expect(isModuleWhitelisted(module)).to.be.false
+      })
+    })
+  })
+})
