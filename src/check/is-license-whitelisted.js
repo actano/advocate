@@ -1,15 +1,6 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import spdx from 'spdx'
 import curry from 'lodash/curry'
-import { createEvaluator } from '../spdx'
+import createEvaluator from '../spdx'
 
 export default curry((licenseWhitelist, exceptionWhitelist, licenseDescription) => {
   const inWhitelist = license => Array.from(licenseWhitelist).includes(license)

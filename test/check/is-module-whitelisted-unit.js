@@ -1,25 +1,11 @@
-/* eslint-disable
-    global-require,
-    no-return-assign,
-    no-unused-expressions,
-    no-unused-vars,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-import sinon from 'sinon'
+/* eslint-disable no-unused-expressions */
 import { expect } from 'chai'
 import memo from 'memo-is'
+import _isModuleWhitelisted from '../../src/check/is-module-whitelisted'
 
 describe('module whitelist check', () => {
   const moduleWhitelist = memo().is(() => [])
-  let isModuleWhitelisted = null
-
-  beforeEach(() => isModuleWhitelisted = require('../../src/check/is-module-whitelisted')(moduleWhitelist()))
+  const isModuleWhitelisted = memo().is(() => _isModuleWhitelisted(moduleWhitelist()))
 
   describe('whitelist contains matching module', () => {
     moduleWhitelist.is(() => [{
@@ -41,7 +27,7 @@ describe('module whitelist check', () => {
         licenseDescriptor: 'MIT',
       }
 
-      expect(isModuleWhitelisted(module)).to.be.true
+      expect(isModuleWhitelisted()(module)).to.be.true
     })
   })
 
@@ -60,7 +46,7 @@ describe('module whitelist check', () => {
         licenseDescriptor: 'MIT',
       }
 
-      expect(isModuleWhitelisted(module)).to.be.false
+      expect(isModuleWhitelisted()(module)).to.be.false
     })
 
     it('returns false on mismatching version', () => {
@@ -70,7 +56,7 @@ describe('module whitelist check', () => {
         licenseDescriptor: 'BSD',
       }
 
-      expect(isModuleWhitelisted(module)).to.be.false
+      expect(isModuleWhitelisted()(module)).to.be.false
     })
 
     it('returns false on mismatching module name', () => {
@@ -80,7 +66,7 @@ describe('module whitelist check', () => {
         licenseDescriptor: 'BSD',
       }
 
-      expect(isModuleWhitelisted(module)).to.be.false
+      expect(isModuleWhitelisted()(module)).to.be.false
     })
   })
 
@@ -98,7 +84,7 @@ describe('module whitelist check', () => {
         version: '1',
       }
 
-      expect(isModuleWhitelisted(module)).to.be.false
+      expect(isModuleWhitelisted()(module)).to.be.false
     })
 
     it('returns false on missing version', () => {
@@ -107,7 +93,7 @@ describe('module whitelist check', () => {
         licenseDescriptor: 'BSD',
       }
 
-      expect(isModuleWhitelisted(module)).to.be.false
+      expect(isModuleWhitelisted()(module)).to.be.false
     })
 
     it('returns false on missing name', () => {
@@ -116,7 +102,7 @@ describe('module whitelist check', () => {
         licenseDescriptor: 'BSD',
       }
 
-      expect(isModuleWhitelisted(module)).to.be.false
+      expect(isModuleWhitelisted()(module)).to.be.false
     })
   })
 
@@ -136,7 +122,7 @@ describe('module whitelist check', () => {
           licenseDescriptor: ['BSD'],
         }
 
-        expect(isModuleWhitelisted(module)).to.be.true
+        expect(isModuleWhitelisted()(module)).to.be.true
       })
 
       it('returns false for array with multiple licenses', () => {
@@ -146,7 +132,7 @@ describe('module whitelist check', () => {
           licenseDescriptor: ['BSD', 'MIT'],
         }
 
-        expect(isModuleWhitelisted(module)).to.be.false
+        expect(isModuleWhitelisted()(module)).to.be.false
       })
     })
 
@@ -165,7 +151,7 @@ describe('module whitelist check', () => {
           licenseDescriptor: null,
         }
 
-        expect(isModuleWhitelisted(module)).to.be.true
+        expect(isModuleWhitelisted()(module)).to.be.true
       })
 
       it('returns false for not matching license', () => {
@@ -175,7 +161,7 @@ describe('module whitelist check', () => {
           licenseDescriptor: 'BSD',
         }
 
-        expect(isModuleWhitelisted(module)).to.be.false
+        expect(isModuleWhitelisted()(module)).to.be.false
       })
     })
 
@@ -194,7 +180,7 @@ describe('module whitelist check', () => {
           licenseDescriptor: ['BSD'],
         }
 
-        expect(isModuleWhitelisted(module)).to.be.true
+        expect(isModuleWhitelisted()(module)).to.be.true
       })
 
       it('returns true for single matchting value', () => {
@@ -204,7 +190,7 @@ describe('module whitelist check', () => {
           licenseDescriptor: 'BSD',
         }
 
-        expect(isModuleWhitelisted(module)).to.be.true
+        expect(isModuleWhitelisted()(module)).to.be.true
       })
     })
 
@@ -223,7 +209,7 @@ describe('module whitelist check', () => {
           licenseDescriptor: ['BSD', 'JSON'],
         }
 
-        expect(isModuleWhitelisted(module)).to.be.true
+        expect(isModuleWhitelisted()(module)).to.be.true
       })
 
       it('returns false for different array', () => {
@@ -233,7 +219,7 @@ describe('module whitelist check', () => {
           licenseDescriptor: ['BSD', 'MIT'],
         }
 
-        expect(isModuleWhitelisted(module)).to.be.false
+        expect(isModuleWhitelisted()(module)).to.be.false
       })
     })
   })

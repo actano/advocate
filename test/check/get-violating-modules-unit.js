@@ -1,30 +1,13 @@
-/* eslint-disable
-    global-require,
-    import/first,
-    max-len,
-    no-return-assign,
-    no-unused-vars,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-import sinon from 'sinon'
-
-const { expect } = require('chai')
-  .use(require('chai-subset'))
-
-import memo from 'memo-is'
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
 import map from 'lodash/fp/map'
+import memo from 'memo-is'
+
+import getViolatingModules from '../../src/check/get-violating-modules'
+
+const { expect } = chai.use(chaiSubset)
 
 describe('getting modules with violating license', () => {
-  let getViolatingModules = null
-
-  before('require', () => getViolatingModules = require('../../src/check/get-violating-modules'))
-
   const licenseWhitelist = memo().is(() => [])
   const exceptionWhitelist = memo().is(() => [])
   const moduleWhitelist = memo().is(() => [])
@@ -33,7 +16,8 @@ describe('getting modules with violating license', () => {
   let result = null
 
   beforeEach(() => {
-    const isModuleViolating = getViolatingModules(licenseWhitelist(), exceptionWhitelist(), moduleWhitelist())
+    const isModuleViolating = getViolatingModules(
+      licenseWhitelist(), exceptionWhitelist(), moduleWhitelist())
     result = isModuleViolating(moduleMap())
   })
 

@@ -1,18 +1,7 @@
-/* eslint-disable
-    func-names,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-/*
- * decaffeinate suggestions:
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 // Evaluation according to the SPDX specification
 // see Appendix IV of http://spdx.org/sites/spdx/files/SPDX-2.0.pdf
 export default function (evalLicense, evalException) {
-  var evaluate = function (ast) {
+  const evaluate = (ast) => {
     if (ast.conjunction != null) {
       switch (ast.conjunction) {
         case 'and':

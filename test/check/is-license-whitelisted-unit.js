@@ -1,25 +1,15 @@
-/* eslint-disable
-    global-require,
-    no-return-assign,
-    no-unused-vars,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-import sinon from 'sinon'
 import { expect } from 'chai'
 import memo from 'memo-is'
+import _isLicenseWhitelisted from '../../src/check/is-license-whitelisted'
 
 describe('license whitelist check', () => {
   const licenseWhitelist = memo().is(() => [])
   const exceptionWhitelist = memo().is(() => [])
   let isLicenseWhitelisted = null
 
-  beforeEach(() => isLicenseWhitelisted = require('../../src/check/is-license-whitelisted')(licenseWhitelist(), exceptionWhitelist()))
+  beforeEach(() => {
+    isLicenseWhitelisted = _isLicenseWhitelisted(licenseWhitelist(), exceptionWhitelist())
+  })
 
   describe('simple license name', () => {
     context('well known license', () => {

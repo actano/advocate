@@ -1,64 +1,25 @@
-/* eslint-disable
-    consistent-return,
-    func-names,
-    guard-for-in,
-    import/no-mutable-exports,
-    max-len,
-    no-cond-assign,
-    no-param-reassign,
-    no-use-before-define,
-    no-var,
-    one-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS104: Avoid inline assignments
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-import isArray from 'lodash/isArray'
 import isObject from 'lodash/isObject'
 import mergeWith from 'lodash/mergeWith'
 import uniq from 'lodash/uniq'
 
-const map = require('lodash/fp/map').convert({ cap: false })
-
-const guessModuleLicense = require('./guess-module-license')()
+import guessModuleLicense from './guess-module-license'
 
 const _getExplicitModuleName = module => `${module.name}@${module.version}`
 
-const _mergeArray = function (a, b) {
-  if (isArray(a)) {
-    return uniq(a.concat(b))
-  }
+const _mergeArray = (a, b) => (Array.isArray(a) ? uniq(a.concat(b)) : undefined)
+
+const _extractLicenseName = (license) => {
+  if (Array.isArray(license)) return license.map(_extractLicenseName)
+  if (isObject(license)) return license.type || license.name
+  return license
 }
 
-var _extractLicenseName = function (license) {
-  switch (false) {
-    case !isArray(license):
-      return map(_extractLicenseName, license)
-    case !isObject(license):
-      return license.type != null ? license.type : license.name
-    default:
-      return license
-  }
-}
-
-const _mapModule = function (module, parents) {
-  let left,
-    left1
-  let licenseDescriptor = _extractLicenseName((left = (left1 = module.license != null ? module.license : module.licence) != null ? left1 : module.licenses) != null ? left : module.licences)
-  const installPaths = [module.path]
-  let isLicenseGuessed = false
-
-  if (licenseDescriptor == null) {
-    licenseDescriptor = guessModuleLicense(module)
-    isLicenseGuessed = (licenseDescriptor != null)
-  }
+const _mapModule = (module, parents) => {
+  const explicitLicense = _extractLicenseName(
+    module.license || module.licence || module.licenses || module.licences)
+  const guessedLicense = explicitLicense ? null : guessModuleLicense(module)
+  const isLicenseGuessed = !!guessedLicense
+  const licenseDescriptor = explicitLicense || guessedLicense
 
   return {
     name: module.name,
@@ -66,37 +27,33 @@ const _mapModule = function (module, parents) {
     version: module.version,
     licenseDescriptor,
     isLicenseGuessed,
-    installPaths,
-    dependencyPaths: [
-      parents,
-    ],
+    installPaths: [module.path],
+    dependencyPaths: [parents],
   }
 }
 
-const _extractModule = function (module, parentPath) {
-  if (parentPath == null) { parentPath = [] }
+const _extractModule = (module, parentPath = []) => {
   const explicitName = _getExplicitModuleName(module)
 
   // Abort recursion if cycle found
-  if (Array.from(parentPath).includes(explicitName)) {
+  if (parentPath.includes(explicitName)) {
     return {}
   }
 
   const depth = parentPath.length
 
-  const moduleMap = extractModules(module.dependencies, [...Array.from(parentPath), explicitName])
-  if ((depth !== 0) && !module.private) {
+  const moduleMap = extractModules(module.dependencies, [...parentPath, explicitName])
+  if (depth && !module.private) {
     moduleMap[explicitName] = _mapModule(module, parentPath)
   }
 
   return moduleMap
 }
 
-var extractModules = function (modules, parentPath) {
-  if (parentPath == null) { parentPath = [] }
+const extractModules = (modules = {}, parentPath = []) => {
   let moduleMap = {}
 
-  for (const name in modules) {
+  for (const name of Object.keys(modules)) {
     // Due to some strange behavior of `npm list`
     // dependencies, that are also installed on a higher level, are truncated in the json output.
     // They contain no version information and no name property.
