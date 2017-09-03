@@ -1,13 +1,3 @@
-/* eslint-disable
-    max-len,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import flow from 'lodash/flow'
 import pickBy from 'lodash/fp/pickBy'
 import map from 'lodash/fp/map'
@@ -32,12 +22,12 @@ const licenseFileNameMatchingMap = {
 export default function (filename) {
   const matchesFilename = expression => expression.test(filename)
 
-  const someExpressionMatchesFilename = regularExpressions => some(regularExpressions, matchesFilename)
+  const someExprMatchesFilename = regularExpressions => some(regularExpressions, matchesFilename)
 
   const addSuffix = license => `${license}*`
 
   const guessLicenses = flow(
-    pickBy(someExpressionMatchesFilename),
+    pickBy(someExprMatchesFilename),
     keys,
     map(addSuffix),
   )

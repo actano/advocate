@@ -1,56 +1,37 @@
-/* eslint-disable
-    global-require,
-    newline-per-chained-call,
-    no-return-assign,
-    no-unused-expressions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
+/* eslint-disable no-unused-expressions */
 import { expect } from 'chai'
 import sinon from 'sinon'
+import fs from 'fs'
+
+import guessModuleLicense from '../../src/detect/guess-module-license'
 
 describe('guessing licenses of a module', () => {
-  let guessModuleLicenseFactory = null
-
-  before('require', () => guessModuleLicenseFactory = require('../../src/detect/guess-module-license'))
-
-  let sandbox = null
-
-  beforeEach('sandbox', () => sandbox = sinon.sandbox.create())
-
-  afterEach('sandbox', () => sandbox.restore())
-
-  let guessModuleLicense = null
-  let fs = null
+  let sandbox
 
   beforeEach(() => {
-    fs = {
-      readFileSync: sandbox.stub(),
-      readdirSync: sandbox.stub(),
-      existsSync: sandbox.stub(),
-    }
-    guessModuleLicense = guessModuleLicenseFactory(fs)
+    sandbox = sinon.sandbox.create()
+    sandbox.stub(fs, 'readFileSync')
+    sandbox.stub(fs, 'readdirSync')
+    sandbox.stub(fs, 'existsSync')
+  })
+
+  afterEach('sandbox', () => {
+    sandbox.restore()
   })
 
   it('guesses no license', () => {
     const module =
-            { name: 'A' }
+      { name: 'A' }
     expect(guessModuleLicense(module)).to.be.null
   })
 
-  context('via readme property', () =>
-
+  context('via readme property', () => {
     it('guesses licenses', () => {
       const module =
-                { readme: '... MIT License ...' }
+        { readme: '... MIT License ...' }
       expect(guessModuleLicense(module)).have.members(['MIT*'])
-    }),
-  )
+    })
+  })
 
   context('via files property', () => {
     it('guesses licenses by file content', () => {
@@ -64,9 +45,12 @@ describe('guessing licenses of a module', () => {
       }
 
       fs.readFileSync
-        .withArgs('/some/dir/README.txt').returns('... MIT License ...')
-        .withArgs('/some/dir/LICENSE.md').returns('... BSD License ...')
-        .withArgs('/some/dir/LICENCE.md').returns('... Apache License Version 2.0  ...')
+        .withArgs('/some/dir/README.txt')
+        .returns('... MIT License ...')
+        .withArgs('/some/dir/LICENSE.md')
+        .returns('... BSD License ...')
+        .withArgs('/some/dir/LICENCE.md')
+        .returns('... Apache License Version 2.0  ...')
 
       expect(guessModuleLicense(module)).to.have.members(['MIT*', 'BSD*', 'Apache-2.0*'])
     })
@@ -105,7 +89,7 @@ describe('guessing licenses of a module', () => {
   context('via contents of module directory', () => {
     it('guesses licenses', () => {
       const module =
-                { path: '/some/dir' }
+        { path: '/some/dir' }
 
       fs.existsSync.withArgs('/some/dir').returns(true)
       fs.readdirSync.withArgs('/some/dir').returns([
@@ -115,16 +99,19 @@ describe('guessing licenses of a module', () => {
       ])
 
       fs.readFileSync
-        .withArgs('/some/dir/README.txt').returns('... MIT License ...')
-        .withArgs('/some/dir/LICENSE.txt').returns('... BSD License ...')
-        .withArgs('/some/dir/LICENCE.md').returns('... Apache License Version 2.0  ...')
+        .withArgs('/some/dir/README.txt')
+        .returns('... MIT License ...')
+        .withArgs('/some/dir/LICENSE.txt')
+        .returns('... BSD License ...')
+        .withArgs('/some/dir/LICENCE.md')
+        .returns('... Apache License Version 2.0  ...')
 
       expect(guessModuleLicense(module)).to.have.members(['MIT*', 'BSD*', 'Apache-2.0*'])
     })
 
     it('ignores files that don\'t match README or LICENSE naming', () => {
       const module =
-                { path: '/some/dir' }
+        { path: '/some/dir' }
 
       fs.existsSync.withArgs('/some/dir').returns(true)
       fs.readdirSync.withArgs('/some/dir').returns([
@@ -141,7 +128,7 @@ describe('guessing licenses of a module', () => {
 
     it('ingores directory if it does not exist', () => {
       const module =
-                { path: '/some/dir' }
+        { path: '/some/dir' }
 
       fs.existsSync.withArgs('/some/dir').returns(false)
 

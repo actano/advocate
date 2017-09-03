@@ -1,14 +1,3 @@
-/* eslint-disable
-    func-names,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import flow from 'lodash/flow'
 import pickBy from 'lodash/fp/pickBy'
 import map from 'lodash/fp/map'
@@ -19,10 +8,10 @@ const specialWords = [
   'licen[sc]e',
 ]
 
-const licensePatternOfText = function (text) {
+const licensePatternOfText = (text) => {
   let pattern = ''
   let isRegExpChar = false
-  for (const char of Array.from(text.replace(/\s+/g, ' '))) {
+  for (const char of text.replace(/\s+/g, ' ')) {
     if (isRegExpChar) {
       if (char === '~') {
         isRegExpChar = false
@@ -49,7 +38,7 @@ const licensePatternOfText = function (text) {
     }
   }
 
-  for (const specialWord of Array.from(specialWords)) {
+  for (const specialWord of specialWords) {
     pattern = pattern.replace(new RegExp(specialWord, 'ig'), specialWord)
   }
 

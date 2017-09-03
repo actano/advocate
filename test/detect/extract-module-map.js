@@ -1,25 +1,13 @@
-/* eslint-disable
-    global-require,
-    import/first,
-    no-return-assign,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const { expect } = require('chai')
-  .use(require('chai-subset'))
-
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
 import memo from 'memo-is'
 
+import extractModules from '../../src/detect/extract-module-map'
+
+const { expect } = chai
+  .use(chaiSubset)
+
 describe('getting modules with violating license', () => {
-  let extractModules = null
-
-  before('require', () => extractModules = require('../../src/detect/extract-module-map'))
-
   it('excludes root module from result', () => {
     const npmModuleMap = {
       name: 'A',
@@ -32,10 +20,8 @@ describe('getting modules with violating license', () => {
     expect(moduleMap).to.not.have.property('A@1')
   })
 
-  describe('guessing license', () =>
-
-    context('via readmy property', () =>
-
+  describe('guessing license', () => {
+    context('via readme property', () => {
       it('guesses an array of licenses', () => {
         const npmModuleMap = {
           name: 'A',
@@ -57,9 +43,9 @@ describe('getting modules with violating license', () => {
             isLicenseGuessed: true,
           },
         })
-      }),
-    ),
-  )
+      })
+    })
+  })
 
   describe('licenseDescriptor', () => {
     let npmModuleMap = null
@@ -334,7 +320,6 @@ describe('getting modules with violating license', () => {
       expect(moduleMap).to.have.property('A_1_1@1')
     }),
   )
-
 
   describe('explicitName', () =>
 

@@ -1,36 +1,25 @@
-/* eslint-disable
-    global-require,
-    no-return-assign,
-    no-unused-expressions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
+/* eslint-disable no-unused-expressions */
 import sinon from 'sinon'
 import { expect } from 'chai'
 import memo from 'memo-is'
 
+import createEvaluator from '../../src/spdx/evaluator'
+
 describe('spdx evaluator', () => {
-  let createEvaluator = null
-
-  before('require', () => createEvaluator = require('../../src/spdx/evaluator'))
-
   let evaluate = null
   const evalLicense = memo().is(() => sinon.stub().returns(false))
   const evalException = memo().is(() => sinon.stub().returns(false))
 
-  beforeEach(() => evaluate = createEvaluator(evalLicense(), evalException()))
+  beforeEach(() => {
+    evaluate = createEvaluator(evalLicense(), evalException())
+  })
 
   describe('leaf node: license', () => {
     it('should return true if evalLicence returns true', () => {
       evalLicense().withArgs('A').returns(true)
 
       const ast =
-                { license: 'A' }
+        { license: 'A' }
 
       expect(evaluate(ast)).to.be.true
     })
@@ -39,7 +28,7 @@ describe('spdx evaluator', () => {
       evalLicense().withArgs('A').returns(true)
 
       const ast =
-                { license: 'B' }
+        { license: 'B' }
 
       expect(evaluate(ast)).to.be.false
     })
@@ -48,12 +37,12 @@ describe('spdx evaluator', () => {
   describe('leaf node: license with exception', () => {
     let ast = null
 
-    beforeEach(() =>
+    beforeEach(() => {
       ast = {
         license: 'A',
         exception: 'E',
-      },
-    )
+      }
+    })
 
     it('should return false if both evalLicense and evalException returns false', () => {
       evalLicense().withArgs('A').returns(false)
@@ -86,11 +75,10 @@ describe('spdx evaluator', () => {
     it('should throw error if getting unknown node', () => expect(() => evaluate(ast)).to.throw(Error))
   })
 
-
   describe('binary node: "and" conjunction', () => {
     let ast = null
 
-    beforeEach(() =>
+    beforeEach(() => {
       ast = {
         conjunction: 'and',
         left: {
@@ -99,8 +87,8 @@ describe('spdx evaluator', () => {
         right: {
           license: 'B',
         },
-      },
-    )
+      }
+    })
 
     it('should return false if both evalLicense returns false', () => {
       evalLicense().withArgs('A').returns(false)
@@ -130,7 +118,7 @@ describe('spdx evaluator', () => {
   describe('binary node: "or" conjunction', () => {
     let ast = null
 
-    beforeEach(() =>
+    beforeEach(() => {
       ast = {
         conjunction: 'or',
         left: {
@@ -139,8 +127,8 @@ describe('spdx evaluator', () => {
         right: {
           license: 'B',
         },
-      },
-    )
+      }
+    })
 
     it('should return false if both evalLicense returns false', () => {
       evalLicense().withArgs('A').returns(false)
@@ -170,10 +158,9 @@ describe('spdx evaluator', () => {
   describe('binary node: unknown conjunction', () => {
     let ast = null
 
-    beforeEach(() =>
-      ast =
-                { conjunction: 'erroneous-conjunction' },
-    )
+    beforeEach(() => {
+      ast = { conjunction: 'erroneous-conjunction' }
+    })
 
     it('should throw error if getting unknown conjunction', () => expect(() => evaluate(ast)).to.throw(Error))
   })
@@ -181,7 +168,7 @@ describe('spdx evaluator', () => {
   describe('nested ast', () => {
     let ast = null
 
-    beforeEach(() =>
+    beforeEach(() => {
       ast = {
         conjunction: 'or',
         left: {
@@ -196,8 +183,8 @@ describe('spdx evaluator', () => {
         right: {
           license: 'C',
         },
-      },
-    )
+      }
+    })
 
     it('should return true if tree is semantically true', () => {
       evalLicense().withArgs('A').returns(true)
