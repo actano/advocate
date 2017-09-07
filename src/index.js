@@ -16,7 +16,7 @@ export default async function (whitelist, options) {
   })
 
   const dependencyTree = await readDependencyTree(dev, path)
-  const allModules = extractModules({ root: dependencyTree })
+  const allModules = extractModules(dependencyTree)
   const violatingModules = getViolatingModules(licenses, licenseExceptions, modules, allModules)
 
   return {

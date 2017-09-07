@@ -15,7 +15,7 @@ describe('getting modules with violating license', () => {
       dependencies: {},
     }
 
-    const moduleMap = extractModules([npmModuleMap])
+    const moduleMap = extractModules(npmModuleMap)
 
     expect(moduleMap).to.not.have.property('A@1')
   })
@@ -35,7 +35,7 @@ describe('getting modules with violating license', () => {
           },
         }
 
-        const moduleMap = extractModules([npmModuleMap])
+        const moduleMap = extractModules(npmModuleMap)
 
         expect(moduleMap).containSubset({
           'B@1': {
@@ -70,7 +70,7 @@ describe('getting modules with violating license', () => {
       licenseProperty.is(() => ({ license: 'BSD' }))
 
       it('detects as string', () => {
-        const moduleMap = extractModules([npmModuleMap])
+        const moduleMap = extractModules(npmModuleMap)
 
         expect(moduleMap['B@1'].licenseDescriptor).to.deep.equal('BSD')
       })
@@ -80,7 +80,7 @@ describe('getting modules with violating license', () => {
       licenseProperty.is(() => ({ licenses: 'BSD' }))
 
       it('detects as string', () => {
-        const moduleMap = extractModules([npmModuleMap])
+        const moduleMap = extractModules(npmModuleMap)
 
         expect(moduleMap['B@1'].licenseDescriptor).to.deep.equal('BSD')
       })
@@ -90,7 +90,7 @@ describe('getting modules with violating license', () => {
       licenseProperty.is(() => ({ license: ['MIT', 'BSD'] }))
 
       it('detects as array of strings', () => {
-        const moduleMap = extractModules([npmModuleMap])
+        const moduleMap = extractModules(npmModuleMap)
 
         expect(moduleMap['B@1'].licenseDescriptor).to.have.members(['BSD', 'MIT'])
       })
@@ -106,7 +106,7 @@ describe('getting modules with violating license', () => {
         }))
 
       it('detects as array of strings', () => {
-        const moduleMap = extractModules([npmModuleMap])
+        const moduleMap = extractModules(npmModuleMap)
 
         expect(moduleMap['B@1'].licenseDescriptor).to.have.members(['BSD', 'MIT'])
       })
@@ -136,7 +136,7 @@ describe('getting modules with violating license', () => {
         },
       }
 
-      const moduleMap = extractModules([npmModuleMap])
+      const moduleMap = extractModules(npmModuleMap)
 
       expect(moduleMap['A_1_1@1'].dependencyPaths).to.have.deep.members([
         ['A@1'],
@@ -168,7 +168,7 @@ describe('getting modules with violating license', () => {
         },
       }
 
-      const moduleMap = extractModules([npmModuleMap])
+      const moduleMap = extractModules(npmModuleMap)
 
       expect(moduleMap['A_1_1@1'].dependencyPaths).to.have.deep.members([
         ['A@1', 'A_1@1'],
@@ -210,7 +210,7 @@ describe('getting modules with violating license', () => {
         },
       }
 
-      moduleMap = extractModules([npmModuleMap])
+      moduleMap = extractModules(npmModuleMap)
     })
 
     context('same module and version with different paths', () => {
@@ -314,7 +314,7 @@ describe('getting modules with violating license', () => {
         },
       }
 
-      const moduleMap = extractModules([npmModuleMap])
+      const moduleMap = extractModules(npmModuleMap)
 
       expect(moduleMap).to.not.have.property('A_1@1')
       expect(moduleMap).to.have.property('A_1_1@1')
@@ -335,7 +335,7 @@ describe('getting modules with violating license', () => {
         },
       }
 
-      const moduleMap = extractModules([npmModuleMap])
+      const moduleMap = extractModules(npmModuleMap)
 
       expect(moduleMap['A_1@1']).to.have.property('explicitName', 'A_1@1')
     }),

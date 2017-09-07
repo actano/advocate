@@ -1,6 +1,7 @@
 import isObject from 'lodash/isObject'
 import mergeWith from 'lodash/mergeWith'
 import uniq from 'lodash/uniq'
+import values from 'lodash/values'
 
 import guessModuleLicense from './guess-module-license'
 
@@ -32,40 +33,29 @@ const _mapModule = (module, parents) => {
   }
 }
 
-const _extractModule = (module, parentPath = []) => {
-  const explicitName = _getExplicitModuleName(module)
-
+function* iterateModules(module, parentPath) {
+  const main = _mapModule(module, parentPath)
+  const { explicitName } = main
   // Abort recursion if cycle found
-  if (parentPath.includes(explicitName)) {
-    return {}
+  if (parentPath.includes(explicitName)) return
+  if (parentPath.length && !module.private) yield main
+  if (!module.dependencies) return
+
+  const subpath = [...parentPath, explicitName]
+  for (const dep of values(module.dependencies)) {
+    yield* iterateModules(dep, subpath)
   }
-
-  const depth = parentPath.length
-
-  const moduleMap = extractModules(module.dependencies, [...parentPath, explicitName])
-  if (depth && !module.private) {
-    moduleMap[explicitName] = _mapModule(module, parentPath)
-  }
-
-  return moduleMap
 }
 
-const extractModules = (modules = {}, parentPath = []) => {
-  let moduleMap = {}
-
-  for (const name of Object.keys(modules)) {
-    // Due to some strange behavior of `npm list`
-    // dependencies, that are also installed on a higher level, are truncated in the json output.
-    // They contain no version information and no name property.
-    // These dependencies are included in the standard list output, however.
-    // We can safely ignore these here, as they are listed on a higher level.
-    const module = modules[name]
-    if (module.name != null) {
-      moduleMap = mergeWith(moduleMap, _extractModule(module, parentPath), _mergeArray)
+export default (module) => {
+  const moduleMap = {}
+  for (const _module of iterateModules(module, [])) {
+    const { explicitName } = _module
+    if (moduleMap[explicitName]) {
+      moduleMap[explicitName] = mergeWith(moduleMap[explicitName], _module, _mergeArray)
+    } else {
+      moduleMap[explicitName] = _module
     }
   }
-
   return moduleMap
 }
-
-export default extractModules
