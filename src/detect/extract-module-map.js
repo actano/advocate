@@ -4,6 +4,8 @@ import uniq from 'lodash/uniq'
 
 import guessModuleLicense from './guess-module-license'
 
+export const CIRCULAR = '[Circular]'
+
 const _extractLicenseName = (license) => {
   if (!license) return null
   if (Array.isArray(license)) return license.map(_extractLicenseName)
@@ -17,7 +19,6 @@ const check = (a, b, name) => {
 
 const merge = (a, b) => {
   if (!b) return a
-  if (!a) return b
   for (const prop of ['name', 'version', 'explicitName', 'licenseDescriptor', 'isLicenseGuessed']) {
     check(a[prop], b[prop], prop)
   }
@@ -67,7 +68,7 @@ export default (module) => {
   const circulars = {}
   for (const _module of iterateModules('ROOT', module, [])) {
     const { explicitName, licenseDescriptor } = _module
-    if (licenseDescriptor === '[Circular]') {
+    if (licenseDescriptor === CIRCULAR) {
       circulars[explicitName] = true
     } else {
       moduleMap[explicitName] = merge(_module, moduleMap[explicitName])
