@@ -38,15 +38,15 @@
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
-    "chai-subset": "^1.2.2",
+    "chai-subset": "^1.6.0",
     "coveralls": "^2.11.9",
-    "eslint": "^4.6.0",
+    "eslint": "^4.6.1",
     "eslint-config-actano-base": "^2.1.0",
     "eslint-plugin-import": "^2.7.0",
     "istanbul": "^0.4.3",
     "memo-is": "0.0.2",
     "mocha": "^3.0.0",
-    "nyc": "^11.1.0",
+    "nyc": "^11.2.1",
     "sinon": "^3.2.1"
   }
 }
