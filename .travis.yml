@@ -3,6 +3,20 @@ node_js:
 - 6.11.1
 after_success:
 - cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
+
+cache:
+  yarn: true
+
+# Greenkeeper update lockfile
+env:
+  global:
+    secure: MFu+i9BnaWpmsZlg7J681wd7xP/zHs6GpBGwnztxTPiCt3MWKrmLVJMcCWUKFZ83dmvQS1oP/uz/rEg06XsadG7luQlJH5pXKnymPiCq9mPqtuj/gxZNhZPPzW5ziEHZpWRkyeyHX3YbyapiLzNGoT4zdvULaT7VszUiJzbaoO5bYCn2cGB9suTJaVGHPdc0qFWqdsI+zU5i0Xq/M1/hi87rX/osyR0jlqp9hpmWFM5aaoWUCdnPhpOIt1BHrtFLbD+cuJlmbY80NTFrgvZ1jC2qdNn1TFuKe4SXSImuQnxjGjRP6N1bbwbmEaby11KxkHWBvDYLzDXQnaZ3joyq/7uAPTi+l4w7bF65mjmjauNwsfkk5GYGAKqAuaklVmD6grRvaKsX9MGdnDQarAihFBv0lx8TmlL7/wxhAT0qBUcX25kRQGWAKqMPcZnETM2GXhsdn/FEwIsp+8nA8NNQAmoUwKpPNkAKtsuTv4bRFxCA2GvIATqGtLdwKpgTnCHC4zWUdZ55yPxWDs7JLH9vdsQ9w9p4f/9okqn9IHh97uYM3yHZebl4sxKm6rn7j+KYwsbvksmf7IlZQ8meXVObMZhDm+sHido+VzLeVuCPdvuh4GFKoS0/EeMckQ7lXuidDzMhdouB9sGb3QqpLvZpyIdxqc8cmWFwVr4c+Qz9LX8=
+before_install: yarn global add greenkeeper-lockfile@1
+before_script: greenkeeper-lockfile-update
+script:
+- yarn run test
+after_script: greenkeeper-lockfile-upload
+
 deploy:
   provider: npm
   email: marcus.mennemeier@actano.de
