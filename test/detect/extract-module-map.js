@@ -1,8 +1,9 @@
 import chai from 'chai'
 import chaiSubset from 'chai-subset'
 import memo from 'memo-is'
+import util from 'util'
 
-import extractModules from '../../src/detect/extract-module-map'
+import extractModules, { CIRCULAR } from '../../src/detect/extract-module-map'
 
 const { expect } = chai
   .use(chaiSubset)
@@ -293,8 +294,7 @@ describe('getting modules with violating license', () => {
     })
   })
 
-  describe('private', () =>
-
+  describe('private', () => {
     it('ignore private modules but not their dependencies', () => {
       const npmModuleMap = {
         name: 'A',
@@ -318,11 +318,10 @@ describe('getting modules with violating license', () => {
 
       expect(moduleMap).to.not.have.property('A_1@1')
       expect(moduleMap).to.have.property('A_1_1@1')
-    }),
-  )
+    })
+  })
 
-  describe('explicitName', () =>
-
+  describe('explicitName', () => {
     it('should have correct explicitName property', () => {
       const npmModuleMap = {
         name: 'A',
@@ -338,6 +337,73 @@ describe('getting modules with violating license', () => {
       const moduleMap = extractModules(npmModuleMap)
 
       expect(moduleMap['A_1@1']).to.have.property('explicitName', 'A_1@1')
-    }),
-  )
+    })
+  })
+
+  describe(`${CIRCULAR} dependencies`, () => {
+    it(`should contain ${CIRCULAR} in circular references`, () => {
+      const circular = {}
+      circular.circular = circular
+      expect(util.inspect(circular)).to.contain(CIRCULAR)
+    })
+
+    it('should throw when props differ', () => {
+      const npmModuleMap = {
+        name: 'A',
+        version: '1',
+        dependencies: {
+          B1: {
+            name: 'B',
+            version: '1',
+            license: 'MIT',
+          },
+          B2: {
+            name: 'B',
+            version: '1',
+            license: 'BSD',
+          },
+        },
+      }
+
+      expect(() => extractModules(npmModuleMap)).to.throw()
+    })
+
+    it(`should drop ${CIRCULAR} licenses`, () => {
+      const npmModuleMap = {
+        name: 'A',
+        version: '1',
+        dependencies: {
+          B1: {
+            name: 'B',
+            version: '1',
+            license: CIRCULAR,
+          },
+          B2: {
+            name: 'B',
+            version: '1',
+            license: 'BSD',
+          },
+        },
+      }
+
+      const moduleMap = extractModules(npmModuleMap)
+      expect(moduleMap['B@1'].licenseDescriptor).to.deep.equal('BSD')
+    })
+
+    it(`should throw if only ${CIRCULAR} licenses are present`, () => {
+      const npmModuleMap = {
+        name: 'A',
+        version: '1',
+        dependencies: {
+          B1: {
+            name: 'B',
+            version: '1',
+            license: CIRCULAR,
+          },
+        },
+      }
+
+      expect(() => extractModules(npmModuleMap)).to.throw()
+    })
+  })
 })

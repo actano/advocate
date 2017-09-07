@@ -22,7 +22,7 @@ const getExecFile = (modulePath) => {
   return execFile
 }
 
-export default async function (dev = false, modulePath) {
+export default async function (dev, modulePath) {
   const options = {
     maxBuffer: 26 * 1024 * 1024,
     cwd: modulePath || process.cwd(),
