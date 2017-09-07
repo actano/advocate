@@ -16,7 +16,7 @@ describe('detection integration test', () => {
 
   beforeEach(async () => {
     const tree = await readDependencyTree(dev(), modulePath)
-    modules = extractModules([tree])
+    modules = extractModules(tree)
   })
 
   context('production', () => {
