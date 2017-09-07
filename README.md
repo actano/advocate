@@ -1,7 +1,6 @@
 # Advocate
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/actano/advocate.svg)](https://greenkeeper.io/)
-
 [![npm](https://img.shields.io/npm/v/advocate.svg)](https://www.npmjs.com/package/advocate)
 [![Build Status](https://travis-ci.org/actano/advocate.svg?branch=master)](https://travis-ci.org/actano/advocate)
 [![Coverage Status](https://coveralls.io/repos/github/actano/advocate/badge.svg?branch=master)](https://coveralls.io/github/actano/advocate?branch=master)
