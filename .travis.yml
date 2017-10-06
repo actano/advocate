@@ -26,4 +26,4 @@ deploy:
   on:
     tags: true
     repo: actano/advocate
-    node: 6.11.1
+    node: 8
