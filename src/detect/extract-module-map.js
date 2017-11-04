@@ -1,6 +1,5 @@
 import isObject from 'lodash/isObject'
 import isEqual from 'lodash/isEqual'
-import uniq from 'lodash/uniq'
 
 import guessModuleLicense from './guess-module-license'
 
@@ -22,9 +21,7 @@ const merge = (a, b) => {
   for (const prop of ['name', 'version', 'explicitName', 'licenseDescriptor', 'isLicenseGuessed']) {
     check(a[prop], b[prop], prop)
   }
-  const installPaths = uniq(a.installPaths.concat(b.installPaths))
-  const dependencyPaths = uniq(a.dependencyPaths.concat(b.dependencyPaths))
-  return { ...a, installPaths, dependencyPaths }
+  return a
 }
 
 function* iterateModules(name, module, parentPath) {
@@ -51,8 +48,6 @@ function* iterateModules(name, module, parentPath) {
       explicitName,
       licenseDescriptor,
       isLicenseGuessed,
-      installPaths: [module.path],
-      dependencyPaths: [parentPath],
     }
   }
   if (!module.dependencies) return

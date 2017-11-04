@@ -33,12 +33,6 @@ describe('detection integration test', () => {
       })
     })
 
-    it('contains dependency paths', () => {
-      expect(modules['c@0.0.1'].dependencyPaths).to.have.deep.members([
-        ['a@0.0.1', 'b@0.0.1'],
-      ])
-    })
-
     it('doesn\'t contain development dependencies and their dependecies', () => {
       expect(modules).to.not.have.any.keys(['d@0.0.1', 'e@0.0.1', 'f@0.0.1', 'g@0.0.1'])
     })

@@ -62,27 +62,22 @@ string. module@version
 ### type Module
 
 Example:
-```javascript
-"module1@1.0.0": {
-  "name": "module1",
-  "explicitName": "module1@1.0.0",
-  "version": "1.0.0",
-  "licenseDescriptor": "MIT",
-  "isLicenseGuessed": false,
-  "installPaths": [
-    "path/to/my/node/project/node_modules/module2/node_modules/module1"
-  ],
-  "dependencyPaths": [
-    [
-      "module2@1.3.0"
-    ]
-  ],
-  "otherUsedVersions": {
-    "1.5.2":
-      "explicitName": "module1@1.5.2"
-      "name": "module1"
-      "version": "1.5.2"
-      "licenseDescriptor": "JSON"
+```json
+{
+  "module1@1.0.0": {
+    "name": "module1",
+    "explicitName": "module1@1.0.0",
+    "version": "1.0.0",
+    "licenseDescriptor": "MIT",
+    "isLicenseGuessed": false,
+    "otherUsedVersions": {
+      "1.5.2": {
+        "explicitName": "module1@1.5.2",
+        "name": "module1",
+        "version": "1.5.2",
+        "licenseDescriptor": "JSON"
+      }
+    }
   }
 }
 ```
