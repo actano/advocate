@@ -68,15 +68,7 @@ Example:
     "name": "module1",
     "explicitName": "module1@1.0.0",
     "version": "1.0.0",
-    "license": "MIT",
-    "otherUsedVersions": {
-      "1.5.2": {
-        "explicitName": "module1@1.5.2",
-        "name": "module1",
-        "version": "1.5.2",
-        "license": "JSON"
-      }
-    }
+    "license": "MIT"
   }
 }
 ```

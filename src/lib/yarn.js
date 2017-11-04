@@ -30,6 +30,7 @@ export const getLicenses = async (dev, cwd = '.') => {
     const name = module[_name]
     const version = module[_version]
     const license = module[_license]
-    return { name, version, license }
+    const explicitName = `${name}@${version}`
+    return { name, version, license, explicitName }
   })
 }

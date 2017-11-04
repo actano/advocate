@@ -3,9 +3,12 @@ import chaiSubset from 'chai-subset'
 import map from 'lodash/fp/map'
 import memo from 'memo-is'
 
-import getViolatingModules from '../../src/check/get-violating-modules'
+import getViolating from '../../src/lib/violating'
 
 const { expect } = chai.use(chaiSubset)
+
+const getViolatingModules = (licenses, licenseExceptions, modules) => moduleMap =>
+  getViolating({ licenses, licenseExceptions, modules }, moduleMap)
 
 describe('getting modules with violating license', () => {
   const licenseWhitelist = memo().is(() => [])
@@ -82,7 +85,6 @@ describe('getting modules with violating license', () => {
         'module1@1': {
           explicitName: 'module1@1',
           license: 'MIT AND JSON',
-          otherUsedVersions: {},
         },
       }),
     )
@@ -138,14 +140,6 @@ describe('getting modules with violating license', () => {
       expect(result).to.containSubset({
         'module@1': {
           explicitName: 'module@1',
-          otherUsedVersions: {
-            2: {
-              explicitName: 'module@2',
-              name: 'module',
-              version: '2',
-              license: 'JSON',
-            },
-          },
         },
       }),
     )

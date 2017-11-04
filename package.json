@@ -30,6 +30,7 @@
   "dependencies": {
     "bluebird": "^3.3.5",
     "lodash": "^4.17.1",
+    "semver": "^5.4.1",
     "spdx": "^0.5.1"
   },
   "devDependencies": {

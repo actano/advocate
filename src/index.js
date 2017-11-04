@@ -1,14 +1,11 @@
-import getViolatingModules from './check'
-import detect from './detect'
+import detect from './lib/detect'
+import getViolating from './lib/violating'
 
-export default async function (
-  { licenses = [], licenseExceptions = [], modules = [] } = {},
-  { dev = false, path } = {}) {
-  const allModules = await detect(dev, path)
-  const violatingModules = getViolatingModules(licenses, licenseExceptions, modules, allModules)
+export const getLicenses = async (dev = false, path) => detect(dev, path)
 
-  return {
-    allModules,
-    violatingModules,
-  }
+export default async function (whitelist = {}, { dev = false, path } = {}) {
+  const allModules = await getLicenses(dev, path)
+  const violatingModules = getViolating(whitelist, allModules)
+
+  return { allModules, violatingModules }
 }

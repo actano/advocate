@@ -3,8 +3,7 @@ import chaiSubset from 'chai-subset'
 import memo from 'memo-is'
 import path from 'path'
 
-import readDependencyTree from '../src/detect/read-dependency-tree'
-import extractModules from '../src/detect/extract-module-map'
+import { readDependencyTree, extractModules } from '../src/lib/npm'
 
 const { expect } = chai.use(chaiSubset)
 

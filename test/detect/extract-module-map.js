@@ -3,7 +3,7 @@ import chaiSubset from 'chai-subset'
 import memo from 'memo-is'
 import util from 'util'
 
-import extractModules, { CIRCULAR } from '../../src/detect/extract-module-map'
+import { extractModules, CIRCULAR } from '../../src/lib/npm'
 
 const { expect } = chai
   .use(chaiSubset)

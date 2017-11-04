@@ -1,5 +1,7 @@
-import isObject from 'lodash/isObject'
+import Bluebird from 'bluebird'
+import childProcess from 'child_process'
 import isEqual from 'lodash/isEqual'
+import isObject from 'lodash/isObject'
 
 export const CIRCULAR = '[Circular]'
 
@@ -52,7 +54,7 @@ function* iterateModules(name, module, parentPath) {
   }
 }
 
-export default (module) => {
+export const extractModules = (module) => {
   const moduleMap = {}
   const circulars = {}
   for (const _module of iterateModules('ROOT', module, [])) {
@@ -70,3 +72,17 @@ export default (module) => {
   }
   return moduleMap
 }
+
+const execFile = Bluebird.promisify(childProcess.execFile)
+
+export const readDependencyTree = async function (dev, modulePath) {
+  const options = {
+    maxBuffer: 26 * 1024 * 1024,
+    cwd: modulePath || process.cwd(),
+  }
+  const stdout = await execFile('npm', ['list', '--json', '--long', dev ? '--dev' : '--prod'], options)
+
+  return JSON.parse(stdout)
+}
+
+export default async (dev, path) => extractModules(await readDependencyTree(dev, path))

@@ -3,7 +3,7 @@ import sinon from 'sinon'
 import { expect } from 'chai'
 import memo from 'memo-is'
 
-import createEvaluator from '../../src/spdx/evaluator'
+import { Evaluator } from '../../src/lib/license-whitelisted'
 
 describe('spdx evaluator', () => {
   let evaluate = null
@@ -11,7 +11,8 @@ describe('spdx evaluator', () => {
   const evalException = memo().is(() => sinon.stub().returns(false))
 
   beforeEach(() => {
-    evaluate = createEvaluator(evalLicense(), evalException())
+    const evaluator = new Evaluator(evalLicense(), evalException())
+    evaluate = ast => evaluator.evaluate(ast)
   })
 
   describe('leaf node: license', () => {
