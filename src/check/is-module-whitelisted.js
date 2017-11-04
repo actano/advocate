@@ -5,7 +5,7 @@ import isEqual from 'lodash/fp/isEqual'
 import isMatchWith from 'lodash/fp/isMatchWith'
 
 function _matchLicenses(whitelistedValue, actualValue, propertyName) {
-  if (propertyName === 'licenseDescriptor') {
+  if (propertyName === 'license') {
     const whitelistedLicensesAsArray = sortBy([].concat(whitelistedValue))
     const actualLicensesAsArray = sortBy([].concat(actualValue))
 
@@ -18,7 +18,7 @@ export default curry((moduleWhitelist, module) => {
   const moduleProps = {
     name: module.name || null,
     version: module.version || null,
-    licenseDescriptor: module.licenseDescriptor || null,
+    license: module.license || null,
   }
   const matchesModule = isMatchWith(_matchLicenses, moduleProps)
 

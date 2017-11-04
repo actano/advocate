@@ -28,7 +28,7 @@ advocate({licenses: ['MIT']})
         for (module of moduleInformation.violatingModules) {
             console.log(`
                 I advise you to not use ${module.explicitName}
-                because of the license ${module.licenseDescriptor}.
+                because of the license ${module.license}.
             `);
         }
     });
@@ -68,13 +68,13 @@ Example:
     "name": "module1",
     "explicitName": "module1@1.0.0",
     "version": "1.0.0",
-    "licenseDescriptor": "MIT",
+    "license": "MIT",
     "otherUsedVersions": {
       "1.5.2": {
         "explicitName": "module1@1.5.2",
         "name": "module1",
         "version": "1.5.2",
-        "licenseDescriptor": "JSON"
+        "license": "JSON"
       }
     }
   }
@@ -93,7 +93,7 @@ Example:
 ```javascript
 {
     name: string
-    licenseDescriptor: LicenseString
+    license: LicenseString
     version: string
 }
 ```

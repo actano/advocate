@@ -26,7 +26,7 @@ const _addOtherUsedVersions = curry((moduleByNameByVersion, module) => {
 export default curry((licenseWhitelist, exceptionWhitelist, moduleWhitelist, moduleMap) => {
   const isModuleWhitelisted = _isModuleWhitelisted(moduleWhitelist)
   const isModuleLicenseWhitelisted = flow(
-    property('licenseDescriptor'),
+    property('license'),
     isLicenseWhitelisted(licenseWhitelist, exceptionWhitelist),
   )
 

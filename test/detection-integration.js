@@ -25,10 +25,10 @@ describe('detection integration test', () => {
     it('contains all modules and their license descriptors', () => {
       expect(modules).containSubset({
         'b@0.0.1': {
-          licenseDescriptor: 'JSON AND MIT',
+          license: 'JSON AND MIT',
         },
         'c@0.0.1': {
-          licenseDescriptor: 'Apache-2.0 WITH LZMA-exception',
+          license: 'Apache-2.0 WITH LZMA-exception',
         },
       })
     })

@@ -11,12 +11,12 @@ describe('module whitelist check', () => {
     moduleWhitelist.is(() => [{
       name: 'module1',
       version: '1',
-      licenseDescriptor: 'BSD',
+      license: 'BSD',
     },
     {
       name: 'module2',
       version: '3',
-      licenseDescriptor: 'MIT',
+      license: 'MIT',
     },
     ])
 
@@ -24,7 +24,7 @@ describe('module whitelist check', () => {
       const module = {
         name: 'module2',
         version: '3',
-        licenseDescriptor: 'MIT',
+        license: 'MIT',
       }
 
       expect(isModuleWhitelisted()(module)).to.be.true
@@ -35,7 +35,7 @@ describe('module whitelist check', () => {
     moduleWhitelist.is(() => [{
       name: 'module1',
       version: '1',
-      licenseDescriptor: 'BSD',
+      license: 'BSD',
     },
     ])
 
@@ -43,7 +43,7 @@ describe('module whitelist check', () => {
       const module = {
         name: 'module1',
         version: '1',
-        licenseDescriptor: 'MIT',
+        license: 'MIT',
       }
 
       expect(isModuleWhitelisted()(module)).to.be.false
@@ -53,7 +53,7 @@ describe('module whitelist check', () => {
       const module = {
         name: 'module1',
         version: '2',
-        licenseDescriptor: 'BSD',
+        license: 'BSD',
       }
 
       expect(isModuleWhitelisted()(module)).to.be.false
@@ -63,7 +63,7 @@ describe('module whitelist check', () => {
       const module = {
         name: 'module2',
         version: '1',
-        licenseDescriptor: 'BSD',
+        license: 'BSD',
       }
 
       expect(isModuleWhitelisted()(module)).to.be.false
@@ -74,7 +74,7 @@ describe('module whitelist check', () => {
     moduleWhitelist.is(() => [{
       name: 'module1',
       version: '1',
-      licenseDescriptor: 'BSD',
+      license: 'BSD',
     },
     ])
 
@@ -90,7 +90,7 @@ describe('module whitelist check', () => {
     it('returns false on missing version', () => {
       const module = {
         name: 'module1',
-        licenseDescriptor: 'BSD',
+        license: 'BSD',
       }
 
       expect(isModuleWhitelisted()(module)).to.be.false
@@ -99,7 +99,7 @@ describe('module whitelist check', () => {
     it('returns false on missing name', () => {
       const module = {
         version: '1',
-        licenseDescriptor: 'BSD',
+        license: 'BSD',
       }
 
       expect(isModuleWhitelisted()(module)).to.be.false
@@ -111,7 +111,7 @@ describe('module whitelist check', () => {
       moduleWhitelist.is(() => [{
         name: 'module1',
         version: '1',
-        licenseDescriptor: 'BSD',
+        license: 'BSD',
       },
       ])
 
@@ -119,7 +119,7 @@ describe('module whitelist check', () => {
         const module = {
           name: 'module1',
           version: '1',
-          licenseDescriptor: ['BSD'],
+          license: ['BSD'],
         }
 
         expect(isModuleWhitelisted()(module)).to.be.true
@@ -129,7 +129,7 @@ describe('module whitelist check', () => {
         const module = {
           name: 'module1',
           version: '1',
-          licenseDescriptor: ['BSD', 'MIT'],
+          license: ['BSD', 'MIT'],
         }
 
         expect(isModuleWhitelisted()(module)).to.be.false
@@ -140,7 +140,7 @@ describe('module whitelist check', () => {
       moduleWhitelist.is(() => [{
         name: 'module1',
         version: '1',
-        licenseDescriptor: null,
+        license: null,
       },
       ])
 
@@ -148,7 +148,7 @@ describe('module whitelist check', () => {
         const module = {
           name: 'module1',
           version: '1',
-          licenseDescriptor: null,
+          license: null,
         }
 
         expect(isModuleWhitelisted()(module)).to.be.true
@@ -158,7 +158,7 @@ describe('module whitelist check', () => {
         const module = {
           name: 'module1',
           version: '1',
-          licenseDescriptor: 'BSD',
+          license: 'BSD',
         }
 
         expect(isModuleWhitelisted()(module)).to.be.false
@@ -169,7 +169,7 @@ describe('module whitelist check', () => {
       moduleWhitelist.is(() => [{
         name: 'module1',
         version: '1',
-        licenseDescriptor: ['BSD'],
+        license: ['BSD'],
       },
       ])
 
@@ -177,7 +177,7 @@ describe('module whitelist check', () => {
         const module = {
           name: 'module1',
           version: '1',
-          licenseDescriptor: ['BSD'],
+          license: ['BSD'],
         }
 
         expect(isModuleWhitelisted()(module)).to.be.true
@@ -187,7 +187,7 @@ describe('module whitelist check', () => {
         const module = {
           name: 'module1',
           version: '1',
-          licenseDescriptor: 'BSD',
+          license: 'BSD',
         }
 
         expect(isModuleWhitelisted()(module)).to.be.true
@@ -198,7 +198,7 @@ describe('module whitelist check', () => {
       moduleWhitelist.is(() => [{
         name: 'module1',
         version: '1',
-        licenseDescriptor: ['JSON', 'BSD'],
+        license: ['JSON', 'BSD'],
       },
       ])
 
@@ -206,7 +206,7 @@ describe('module whitelist check', () => {
         const module = {
           name: 'module1',
           version: '1',
-          licenseDescriptor: ['BSD', 'JSON'],
+          license: ['BSD', 'JSON'],
         }
 
         expect(isModuleWhitelisted()(module)).to.be.true
@@ -216,7 +216,7 @@ describe('module whitelist check', () => {
         const module = {
           name: 'module1',
           version: '1',
-          licenseDescriptor: ['BSD', 'MIT'],
+          license: ['BSD', 'MIT'],
         }
 
         expect(isModuleWhitelisted()(module)).to.be.false

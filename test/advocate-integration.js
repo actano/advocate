@@ -38,7 +38,7 @@ describe('advocate integration test', () => {
           modules: [{
             name: 'c',
             version: '0.0.1',
-            licenseDescriptor: 'Apache-2.0 WITH LZMA-exception',
+            license: 'Apache-2.0 WITH LZMA-exception',
           },
           ],
         }
@@ -103,7 +103,7 @@ describe('advocate integration test', () => {
       moduleWhitelist.is(() => [{
         name: 'b',
         version: '0.0.1',
-        licenseDescriptor: 'JSON AND MIT',
+        license: 'JSON AND MIT',
       },
       ])
 

@@ -16,7 +16,7 @@ const check = (a, b, name) => {
 
 const merge = (a, b) => {
   if (!b) return a
-  for (const prop of ['name', 'version', 'explicitName', 'licenseDescriptor']) {
+  for (const prop of ['name', 'version', 'explicitName', 'license']) {
     check(a[prop], b[prop], prop)
   }
   return a
@@ -34,14 +34,14 @@ function* iterateModules(name, module, parentPath) {
   if (parentPath.includes(explicitName)) return
 
   if (parentPath.length && !module.private) {
-    const licenseDescriptor = _extractLicenseName(
+    const license = _extractLicenseName(
       module.license || module.licence || module.licenses || module.licences)
 
     yield {
       name: module.name,
       version: module.version,
       explicitName,
-      licenseDescriptor,
+      license,
     }
   }
   if (!module.dependencies) return
@@ -56,8 +56,8 @@ export default (module) => {
   const moduleMap = {}
   const circulars = {}
   for (const _module of iterateModules('ROOT', module, [])) {
-    const { explicitName, licenseDescriptor } = _module
-    if (licenseDescriptor === CIRCULAR) {
+    const { explicitName, license } = _module
+    if (license === CIRCULAR) {
       circulars[explicitName] = true
     } else {
       moduleMap[explicitName] = merge(_module, moduleMap[explicitName])

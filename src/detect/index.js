@@ -9,10 +9,9 @@ export default async (dev, path) => {
       modules[name] = {
         name,
         version,
-        licenseDescriptor: license,
+        license,
         explicitName: `${name}@${version}`,
       }
-      module.licenseDescriptor = module.license
     }
     return modules
   }

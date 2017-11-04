@@ -21,7 +21,7 @@ describe('getting modules with violating license', () => {
     expect(moduleMap).to.not.have.property('A@1')
   })
 
-  describe('licenseDescriptor', () => {
+  describe('license', () => {
     let npmModuleMap = null
     const licenseProperty = memo().is(() => ({}))
 
@@ -46,7 +46,7 @@ describe('getting modules with violating license', () => {
       it('detects as string', () => {
         const moduleMap = extractModules(npmModuleMap)
 
-        expect(moduleMap['B@1'].licenseDescriptor).to.deep.equal('BSD')
+        expect(moduleMap['B@1'].license).to.deep.equal('BSD')
       })
     })
 
@@ -56,7 +56,7 @@ describe('getting modules with violating license', () => {
       it('detects as string', () => {
         const moduleMap = extractModules(npmModuleMap)
 
-        expect(moduleMap['B@1'].licenseDescriptor).to.deep.equal('BSD')
+        expect(moduleMap['B@1'].license).to.deep.equal('BSD')
       })
     })
 
@@ -66,7 +66,7 @@ describe('getting modules with violating license', () => {
       it('detects as array of strings', () => {
         const moduleMap = extractModules(npmModuleMap)
 
-        expect(moduleMap['B@1'].licenseDescriptor).to.have.members(['BSD', 'MIT'])
+        expect(moduleMap['B@1'].license).to.have.members(['BSD', 'MIT'])
       })
     })
 
@@ -82,7 +82,7 @@ describe('getting modules with violating license', () => {
       it('detects as array of strings', () => {
         const moduleMap = extractModules(npmModuleMap)
 
-        expect(moduleMap['B@1'].licenseDescriptor).to.have.members(['BSD', 'MIT'])
+        expect(moduleMap['B@1'].license).to.have.members(['BSD', 'MIT'])
       })
     })
   })
@@ -180,7 +180,7 @@ describe('getting modules with violating license', () => {
       }
 
       const moduleMap = extractModules(npmModuleMap)
-      expect(moduleMap['B@1'].licenseDescriptor).to.deep.equal('BSD')
+      expect(moduleMap['B@1'].license).to.deep.equal('BSD')
     })
 
     it(`should throw if only ${CIRCULAR} licenses are present`, () => {
