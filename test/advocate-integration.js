@@ -9,7 +9,6 @@ import advocate from '../src/index'
 const { expect } = chai.use(chaiSubset)
 
 const testDataPathA = path.join(__dirname, 'integration-data/a')
-const testDataPathB = path.join(__dirname, 'integration-data/b')
 
 describe('advocate integration test', () => {
   describe('with missing parameters', () => {
@@ -24,7 +23,7 @@ describe('advocate integration test', () => {
 
     context('with no given whitelist', () => {
       it('returns all production dependencies for given path', async () => {
-        const { violatingModules } = await advocate(null, { path: testDataPathA })
+        const { violatingModules } = await advocate(undefined, { path: testDataPathA })
 
         expect(map('explicitName', violatingModules)).to.have.members([
           'b@0.0.1',
@@ -115,19 +114,6 @@ describe('advocate integration test', () => {
       it('doesn\'t contains non-violating modules', () => {
         expect(map('explicitName', violatingModules)).to.not.contain('b@0.0.1')
       })
-    })
-  })
-
-  describe('yarn.lock present', () => {
-    it('should not throw error from npm list', async () => {
-      const whitelist = { licenses: ['MIT', 'JSON'] }
-
-      const options = {
-        dev: false,
-        path: testDataPathB,
-      }
-
-      await advocate(whitelist, options)
     })
   })
 })
