@@ -69,7 +69,6 @@ Example:
     "explicitName": "module1@1.0.0",
     "version": "1.0.0",
     "licenseDescriptor": "MIT",
-    "isLicenseGuessed": false,
     "otherUsedVersions": {
       "1.5.2": {
         "explicitName": "module1@1.5.2",

@@ -11,7 +11,6 @@ export default async (dev, path) => {
         version,
         licenseDescriptor: license,
         explicitName: `${name}@${version}`,
-        isLicenseGuessed: false,
       }
       module.licenseDescriptor = module.license
     }

@@ -1,8 +1,6 @@
 import isObject from 'lodash/isObject'
 import isEqual from 'lodash/isEqual'
 
-import guessModuleLicense from './guess-module-license'
-
 export const CIRCULAR = '[Circular]'
 
 const _extractLicenseName = (license) => {
@@ -18,7 +16,7 @@ const check = (a, b, name) => {
 
 const merge = (a, b) => {
   if (!b) return a
-  for (const prop of ['name', 'version', 'explicitName', 'licenseDescriptor', 'isLicenseGuessed']) {
+  for (const prop of ['name', 'version', 'explicitName', 'licenseDescriptor']) {
     check(a[prop], b[prop], prop)
   }
   return a
@@ -36,18 +34,14 @@ function* iterateModules(name, module, parentPath) {
   if (parentPath.includes(explicitName)) return
 
   if (parentPath.length && !module.private) {
-    const explicitLicense = _extractLicenseName(
+    const licenseDescriptor = _extractLicenseName(
       module.license || module.licence || module.licenses || module.licences)
-    const guessedLicense = explicitLicense ? null : guessModuleLicense(module)
-    const isLicenseGuessed = !!guessedLicense
-    const licenseDescriptor = explicitLicense || guessedLicense
 
     yield {
       name: module.name,
       version: module.version,
       explicitName,
       licenseDescriptor,
-      isLicenseGuessed,
     }
   }
   if (!module.dependencies) return

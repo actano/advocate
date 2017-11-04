@@ -21,33 +21,6 @@ describe('getting modules with violating license', () => {
     expect(moduleMap).to.not.have.property('A@1')
   })
 
-  describe('guessing license', () => {
-    context('via readme property', () => {
-      it('guesses an array of licenses', () => {
-        const npmModuleMap = {
-          name: 'A',
-          version: '1',
-          dependencies: {
-            B: {
-              name: 'B',
-              version: 1,
-              readme: '... MIT License ... Apache License Version 2.0 ...',
-            },
-          },
-        }
-
-        const moduleMap = extractModules(npmModuleMap)
-
-        expect(moduleMap).containSubset({
-          'B@1': {
-            licenseDescriptor: ['MIT*', 'Apache-2.0*'],
-            isLicenseGuessed: true,
-          },
-        })
-      })
-    })
-  })
-
   describe('licenseDescriptor', () => {
     let npmModuleMap = null
     const licenseProperty = memo().is(() => ({}))
