@@ -1,7 +1,7 @@
 import defaults from 'lodash/defaults'
 
 import getViolatingModules from './check'
-import { extractModules, readDependencyTree } from './detect'
+import detect from './detect'
 
 export default async function (whitelist, options) {
   const { dev, path } = defaults(options, {
@@ -15,8 +15,7 @@ export default async function (whitelist, options) {
     modules: [],
   })
 
-  const dependencyTree = await readDependencyTree(dev, path)
-  const allModules = extractModules(dependencyTree)
+  const allModules = await detect(dev, path)
   const violatingModules = getViolatingModules(licenses, licenseExceptions, modules, allModules)
 
   return {
