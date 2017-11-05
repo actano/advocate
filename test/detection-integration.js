@@ -1,11 +1,17 @@
 import chai from 'chai'
-import chaiSubset from 'chai-subset'
 import memo from 'memo-is'
 import path from 'path'
 
 import { readDependencyTree, extractModules } from '../src/lib/npm'
 
-const { expect } = chai.use(chaiSubset)
+const { expect } = chai
+
+const B = { name: 'b', version: '0.0.1', license: 'JSON AND MIT' }
+const C = { name: 'c', version: '0.0.1', license: 'Apache-2.0 WITH LZMA-exception' }
+const D = { name: 'd', version: '0.0.1' }
+const E = { name: 'e', version: '0.0.1', license: 'BSD OR Apache-2.0' }
+const F = { name: 'f', version: '0.0.1', license: 'MIT OR BSD OR Apache-2.0' }
+const G = { name: 'g', version: '0.0.1' }
 
 describe('detection integration test', () => {
   const modulePath = path.join(__dirname, 'integration-data/a')
@@ -22,18 +28,11 @@ describe('detection integration test', () => {
     dev.is(() => false)
 
     it('contains all modules and their license descriptors', () => {
-      expect(modules).containSubset({
-        'b@0.0.1': {
-          license: 'JSON AND MIT',
-        },
-        'c@0.0.1': {
-          license: 'Apache-2.0 WITH LZMA-exception',
-        },
-      })
+      expect(modules).to.have.deep.members([B, C])
     })
 
     it('doesn\'t contain development dependencies and their dependecies', () => {
-      expect(modules).to.not.have.any.keys(['d@0.0.1', 'e@0.0.1', 'f@0.0.1', 'g@0.0.1'])
+      expect(modules).to.not.have.deep.members([D, E, F, G])
     })
   })
 
@@ -41,15 +40,15 @@ describe('detection integration test', () => {
     dev.is(() => true)
 
     it('contains all development dependencies and their production dependencies', () => {
-      expect(modules).to.have.all.keys(['e@0.0.1', 'f@0.0.1'])
+      expect(modules).to.have.deep.members([E, F])
     })
 
     it('doesn\'t contain production dependencies and their dependencies', () => {
-      expect(modules).to.not.have.any.keys(['b@0.0.1', 'c@0.0.1', 'd@0.0.1'])
+      expect(modules).to.not.have.members([B, C, D])
     })
 
     it('doesn\'t contain development dependencies of development dependecies', () => {
-      expect(modules).to.not.have.any.keys(['g@0.0.1'])
+      expect(modules).to.not.have.members([G])
     })
   })
 })

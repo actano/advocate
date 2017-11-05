@@ -27,7 +27,7 @@ advocate({licenses: ['MIT']})
     .then(function(moduleInformation) {
         for (module of moduleInformation.violatingModules) {
             console.log(`
-                I advise you to not use ${module.explicitName}
+                I advise you to not use ${module.name}@${module.version}
                 because of the license ${module.license}.
             `);
         }
@@ -50,14 +50,10 @@ Determines modules whose license descriptions do not satisfy the given whitelist
 
 ```javascript
 {
-    allModules: Map<ExplicitName, Module>
-    violatingModules: Map<ExplicitName, Module>
+    allModules: Array<Module>
+    violatingModules: Array<Module>
 }
 ```
-
-### type ExplicitName
-
-string. module@version
 
 ### type Module
 
@@ -66,7 +62,6 @@ Example:
 {
   "module1@1.0.0": {
     "name": "module1",
-    "explicitName": "module1@1.0.0",
     "version": "1.0.0",
     "license": "MIT"
   }

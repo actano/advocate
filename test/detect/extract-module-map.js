@@ -44,9 +44,8 @@ describe('getting modules with violating license', () => {
       licenseProperty.is(() => ({ license: 'BSD' }))
 
       it('detects as string', () => {
-        const moduleMap = extractModules(npmModuleMap)
-
-        expect(moduleMap['B@1'].license).to.deep.equal('BSD')
+        const modules = extractModules(npmModuleMap)
+        expect(modules).to.deep.include({ name: 'B', version: '1', license: 'BSD' })
       })
     })
 
@@ -54,9 +53,8 @@ describe('getting modules with violating license', () => {
       licenseProperty.is(() => ({ licenses: 'BSD' }))
 
       it('detects as string', () => {
-        const moduleMap = extractModules(npmModuleMap)
-
-        expect(moduleMap['B@1'].license).to.deep.equal('BSD')
+        const modules = extractModules(npmModuleMap)
+        expect(modules).to.deep.include({ name: 'B', version: '1', license: 'BSD' })
       })
     })
 
@@ -64,9 +62,8 @@ describe('getting modules with violating license', () => {
       licenseProperty.is(() => ({ license: ['MIT', 'BSD'] }))
 
       it('detects as array of strings', () => {
-        const moduleMap = extractModules(npmModuleMap)
-
-        expect(moduleMap['B@1'].license).to.have.members(['BSD', 'MIT'])
+        const modules = extractModules(npmModuleMap)
+        expect(modules).to.deep.include({ name: 'B', version: '1', license: ['MIT', 'BSD'] })
       })
     })
 
@@ -80,56 +77,9 @@ describe('getting modules with violating license', () => {
         }))
 
       it('detects as array of strings', () => {
-        const moduleMap = extractModules(npmModuleMap)
-
-        expect(moduleMap['B@1'].license).to.have.members(['BSD', 'MIT'])
+        const modules = extractModules(npmModuleMap)
+        expect(modules).to.deep.include({ name: 'B', version: '1', license: ['MIT', 'BSD'] })
       })
-    })
-  })
-
-  describe('private', () => {
-    it('ignore private modules but not their dependencies', () => {
-      const npmModuleMap = {
-        name: 'A',
-        version: '1',
-        dependencies: {
-          A_1: {
-            name: 'A_1',
-            version: 1,
-            private: true,
-            dependencies: {
-              A_1_1: {
-                name: 'A_1_1',
-                version: 1,
-              },
-            },
-          },
-        },
-      }
-
-      const moduleMap = extractModules(npmModuleMap)
-
-      expect(moduleMap).to.not.have.property('A_1@1')
-      expect(moduleMap).to.have.property('A_1_1@1')
-    })
-  })
-
-  describe('explicitName', () => {
-    it('should have correct explicitName property', () => {
-      const npmModuleMap = {
-        name: 'A',
-        version: '1',
-        dependencies: {
-          A_1: {
-            name: 'A_1',
-            version: 1,
-          },
-        },
-      }
-
-      const moduleMap = extractModules(npmModuleMap)
-
-      expect(moduleMap['A_1@1']).to.have.property('explicitName', 'A_1@1')
     })
   })
 
@@ -138,27 +88,6 @@ describe('getting modules with violating license', () => {
       const circular = {}
       circular.circular = circular
       expect(util.inspect(circular)).to.contain(CIRCULAR)
-    })
-
-    it('should throw when props differ', () => {
-      const npmModuleMap = {
-        name: 'A',
-        version: '1',
-        dependencies: {
-          B1: {
-            name: 'B',
-            version: '1',
-            license: 'MIT',
-          },
-          B2: {
-            name: 'B',
-            version: '1',
-            license: 'BSD',
-          },
-        },
-      }
-
-      expect(() => extractModules(npmModuleMap)).to.throw()
     })
 
     it(`should drop ${CIRCULAR} licenses`, () => {
@@ -179,8 +108,8 @@ describe('getting modules with violating license', () => {
         },
       }
 
-      const moduleMap = extractModules(npmModuleMap)
-      expect(moduleMap['B@1'].license).to.deep.equal('BSD')
+      const modules = extractModules(npmModuleMap)
+      expect(modules).to.deep.include({ name: 'B', version: '1', license: 'BSD' })
     })
 
     it(`should throw if only ${CIRCULAR} licenses are present`, () => {
