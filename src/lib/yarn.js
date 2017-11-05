@@ -1,21 +1,11 @@
-import { execFile } from 'child_process'
 import { existsSync } from 'fs'
 import { join } from 'path'
+import execFile from './exec-file'
 
 export const isYarnInUse = (path = '.') => existsSync(join(path, 'node_modules', '.yarn-integrity'))
 
 export const getLicenses = async (dev, cwd = '.') => {
-  const json = await new Promise((resolve, reject) => {
-    const args = ['--json', '--no-progress', '--offline', 'licenses', 'list']
-    if (!dev) args.push('--prod')
-    execFile('yarn', args, { cwd }, (error, stdout) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve(JSON.parse(stdout))
-      }
-    })
-  })
+  const json = await execFile(cwd, 'yarn', '--json', '--no-progress', '--offline', 'licenses', 'list', dev ? '--dev' : '--prod')
   // expect(json).to.have.property('type', 'table')
   // expect(json).to.have.property('data').that.is.an('object')
   const { data } = json

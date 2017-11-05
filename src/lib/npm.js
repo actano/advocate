@@ -1,6 +1,6 @@
-import { execFile } from 'child_process'
 import isEqual from 'lodash/isEqual'
 import isObject from 'lodash/isObject'
+import execFile from './exec-file'
 
 export const CIRCULAR = '[Circular]'
 
@@ -73,17 +73,7 @@ export const extractModules = (module) => {
 }
 
 export const readDependencyTree = async function (dev, cwd) {
-  const maxBuffer = 26 * 1024 * 1024
-  return new Promise((resolve, reject) => {
-    const args = ['list', '--json', '--long', dev ? '--dev' : '--prod']
-    execFile('npm', args, { cwd, maxBuffer }, (error, stdout) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve(JSON.parse(stdout))
-      }
-    })
-  })
+  return execFile(cwd, 'npm', 'list', '--json', '--long', dev ? '--dev' : '--prod')
 }
 
 export default async (dev, path) => extractModules(await readDependencyTree(dev, path))
