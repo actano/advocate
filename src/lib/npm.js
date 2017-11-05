@@ -23,40 +23,31 @@ const merge = (a, b) => {
   return a
 }
 
-function* iterateModules(name, module, parentPath) {
-  if (!module.name) {
-    // eslint-disable-next-line no-console
-    console.error('WARNING: %s required from %s is missing', name, parentPath.join('->'))
-    return
-  }
+function* iterateDependencies(parent) {
+  if (!parent.dependencies) return
 
-  const explicitName = `${module.name}@${module.version}`
-  // Abort recursion if cycle found
-  if (parentPath.includes(explicitName)) return
+  for (const module of Object.values(parent.dependencies)) {
+    if (!module.private) {
+      const explicitName = `${module.name}@${module.version}`
 
-  if (parentPath.length && !module.private) {
-    const license = _extractLicenseName(
-      module.license || module.licence || module.licenses || module.licences)
+      const license = _extractLicenseName(
+        module.license || module.licence || module.licenses || module.licences)
 
-    yield {
-      name: module.name,
-      version: module.version,
-      explicitName,
-      license,
+      yield {
+        name: module.name,
+        version: module.version,
+        explicitName,
+        license,
+      }
     }
-  }
-  if (!module.dependencies) return
-
-  const subpath = [...parentPath, explicitName]
-  for (const depName of Object.keys(module.dependencies)) {
-    yield* iterateModules(depName, module.dependencies[depName], subpath)
+    yield* iterateDependencies(module)
   }
 }
 
 export const extractModules = (module) => {
   const moduleMap = {}
   const circulars = {}
-  for (const _module of iterateModules('ROOT', module, [])) {
+  for (const _module of iterateDependencies(module)) {
     const { explicitName, license } = _module
     if (license === CIRCULAR) {
       circulars[explicitName] = true
