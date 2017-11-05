@@ -1,5 +1,4 @@
-import Bluebird from 'bluebird'
-import childProcess from 'child_process'
+import { execFile } from 'child_process'
 import isEqual from 'lodash/isEqual'
 import isObject from 'lodash/isObject'
 
@@ -73,16 +72,18 @@ export const extractModules = (module) => {
   return moduleMap
 }
 
-const execFile = Bluebird.promisify(childProcess.execFile)
-
-export const readDependencyTree = async function (dev, modulePath) {
-  const options = {
-    maxBuffer: 26 * 1024 * 1024,
-    cwd: modulePath || process.cwd(),
-  }
-  const stdout = await execFile('npm', ['list', '--json', '--long', dev ? '--dev' : '--prod'], options)
-
-  return JSON.parse(stdout)
+export const readDependencyTree = async function (dev, cwd) {
+  const maxBuffer = 26 * 1024 * 1024
+  return new Promise((resolve, reject) => {
+    const args = ['list', '--json', '--long', dev ? '--dev' : '--prod']
+    execFile('npm', args, { cwd, maxBuffer }, (error, stdout) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(JSON.parse(stdout))
+      }
+    })
+  })
 }
 
 export default async (dev, path) => extractModules(await readDependencyTree(dev, path))
