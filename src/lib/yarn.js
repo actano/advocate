@@ -5,7 +5,7 @@ import execFile from './exec-file'
 export const isYarnInUse = (path = '.') => existsSync(join(path, 'node_modules', '.yarn-integrity'))
 
 export const getLicenses = async (dev, cwd = '.') => {
-  const json = await execFile(cwd, 'yarn', '--json', '--no-progress', '--offline', 'licenses', 'list', dev ? '--dev' : '--prod')
+  const json = await execFile(cwd, 'yarn', '--json', '--no-progress', 'licenses', 'list', dev ? '--dev' : '--prod')
   // expect(json).to.have.property('type', 'table')
   // expect(json).to.have.property('data').that.is.an('object')
   const { data } = json
