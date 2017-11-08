@@ -1,6 +1,6 @@
 {
   "name": "advocate",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Check licenses of installed dependencies and their transitive dependencies and compare them to a give whitelist.",
   "license": "MIT",
   "author": "Actano GmbH",
@@ -25,7 +25,7 @@
     "test": "test"
   },
   "engines": {
-    "node": ">=8.9.0"
+    "node": ">=8"
   },
   "dependencies": {
     "semver": "^5.4.1",
