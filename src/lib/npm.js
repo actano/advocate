@@ -49,7 +49,7 @@ export const extractModules = (module) => {
 }
 
 export const readDependencyTree = async function (dev, cwd) {
-  return execFile(cwd, 'npm', 'list', '--json', '--long', dev ? '--dev' : '--prod')
+  return JSON.parse(await execFile(cwd, 'npm', 'list', '--json', '--long', dev ? '--dev' : '--prod'))
 }
 
 export default async (dev, path) => extractModules(await readDependencyTree(dev, path))

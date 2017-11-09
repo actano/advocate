@@ -7,7 +7,7 @@ export default async function (cwd, cmd, ...args) {
       if (error) {
         reject(error)
       } else {
-        resolve(JSON.parse(stdout))
+        resolve(stdout)
       }
     })
   })
