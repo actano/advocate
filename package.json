@@ -41,7 +41,7 @@
     "chai-subset": "^1.6.0",
     "coveralls": "^3.0.0",
     "eslint": "^4.6.1",
-    "eslint-config-actano-base": "^2.1.0",
+    "eslint-config-actano-base": "^3.0.0",
     "eslint-plugin-import": "^2.7.0",
     "istanbul": "^0.4.3",
     "memo-is": "0.0.2",
