@@ -1,6 +1,6 @@
 {
   "name": "advocate",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Check licenses of installed dependencies and their transitive dependencies and compare them to a give whitelist.",
   "license": "MIT",
   "author": "Actano GmbH",
