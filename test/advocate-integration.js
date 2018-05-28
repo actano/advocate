@@ -70,8 +70,8 @@ describe('advocate integration test', () => {
         path: testDataPathA,
       }
 
-      const result = await advocate(whitelist, options)
-      violatingModules = result.violatingModules
+      const result = await advocate(whitelist, options);
+      ({ violatingModules } = result)
     })
 
     describe('license whitelist', () => {

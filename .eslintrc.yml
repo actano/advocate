@@ -4,3 +4,5 @@ overrides:
   - 'test/**/*.js'
   env:
     mocha: true
+rules:
+    max-len: ['error', 160]

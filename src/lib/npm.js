@@ -14,8 +14,7 @@ function* iterateDependencies(parent) {
 
   for (const module of Object.values(parent.dependencies)) {
     if (!module.private) {
-      const license = _extractLicenseName(
-        module.license || module.licence || module.licenses || module.licences)
+      const license = _extractLicenseName(module.license || module.licence || module.licenses || module.licences)
 
       yield {
         name: module.name,

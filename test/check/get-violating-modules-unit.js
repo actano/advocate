@@ -20,8 +20,7 @@ describe('getting modules with violating license', () => {
   let result = null
 
   beforeEach(() => {
-    const isModuleViolating = getViolatingModules(
-      licenseWhitelist(), exceptionWhitelist(), moduleWhitelist())
+    const isModuleViolating = getViolatingModules(licenseWhitelist(), exceptionWhitelist(), moduleWhitelist())
     result = isModuleViolating(moduleMap())
   })
 
@@ -45,14 +44,12 @@ describe('getting modules with violating license', () => {
           name: 'module3',
           version: '1',
         },
-      }),
-    )
+      }))
 
     it('should return list of modules without whitelisted license', () =>
       expect(mapName(result)).to.have.members([
         'module2@1', 'module3@1',
-      ]),
-    )
+      ]))
 
     it('should include license for each module', () =>
       expect(result).to.have.deep.members([
@@ -66,8 +63,7 @@ describe('getting modules with violating license', () => {
           version: '1',
           license: 'FOO',
         },
-      ]),
-    )
+      ]))
   })
 
   describe('with SPDX expressions', () => {
@@ -85,8 +81,7 @@ describe('getting modules with violating license', () => {
           version: '1',
           license: 'MIT OR JSON',
         },
-      }),
-    )
+      }))
 
     it('should return list of modules without whitelisted license', () =>
       expect(result).to.deep.equal([
@@ -95,8 +90,7 @@ describe('getting modules with violating license', () => {
           version: '1',
           license: 'MIT AND JSON',
         },
-      ]),
-    )
+      ]))
   })
 
   describe('with module whitelist', () => {
@@ -119,8 +113,7 @@ describe('getting modules with violating license', () => {
           version: 1,
           license: 'JSON',
         },
-      }),
-    )
+      }))
 
     it('should exclude whitelisted module', () => expect(mapName(result)).to.not.contain('module2@1'))
   })
@@ -140,8 +133,7 @@ describe('getting modules with violating license', () => {
           version: '2',
           license: 'JSON',
         },
-      }),
-    )
+      }))
 
     it('should return list of modules without whitelisted license', () =>
       expect(result).to.have.deep.members([
@@ -150,7 +142,6 @@ describe('getting modules with violating license', () => {
           version: '1',
           license: 'MIT',
         },
-      ]),
-    )
+      ]))
   })
 })

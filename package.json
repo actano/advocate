@@ -28,25 +28,25 @@
     "node": ">=8"
   },
   "dependencies": {
-    "ld-jsonstream": "^1.0.0",
-    "semver": "^5.4.1",
+    "ld-jsonstream": "^1.0.1",
+    "semver": "^5.5.0",
     "spdx": "^0.5.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "chai-subset": "^1.6.0",
-    "coveralls": "^3.0.0",
-    "eslint": "^4.6.1",
-    "eslint-config-actano-base": "^2.1.0",
-    "eslint-plugin-import": "^2.7.0",
+    "coveralls": "^3.0.1",
+    "eslint": "^4.19.1",
+    "eslint-config-actano-base": "^3.0.0",
+    "eslint-plugin-import": "^2.12.0",
     "istanbul": "^0.4.3",
     "memo-is": "0.0.2",
-    "mocha": "^4.0.1",
-    "nyc": "^11.2.1",
-    "sinon": "^4.1.1"
+    "mocha": "^5.2.0",
+    "nyc": "^11.8.0",
+    "sinon": "^5.0.10"
   }
 }
