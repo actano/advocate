@@ -2,6 +2,7 @@ import chai from 'chai'
 import chaiSubset from 'chai-subset'
 import memo from 'memo-is'
 import util from 'util'
+import makeModule from '../_module'
 
 import { extractModules, CIRCULAR } from '../../src/lib/npm'
 
@@ -45,7 +46,7 @@ describe('getting modules with violating license', () => {
 
       it('detects as string', () => {
         const modules = extractModules(npmModuleMap)
-        expect(modules).to.deep.include({ name: 'B', version: '1', license: 'BSD' })
+        expect(modules).to.deep.include(makeModule('B', '1', 'BSD'))
       })
     })
 
@@ -54,7 +55,7 @@ describe('getting modules with violating license', () => {
 
       it('detects as string', () => {
         const modules = extractModules(npmModuleMap)
-        expect(modules).to.deep.include({ name: 'B', version: '1', license: 'BSD' })
+        expect(modules).to.deep.include(makeModule('B', '1', 'BSD'))
       })
     })
 
@@ -63,7 +64,7 @@ describe('getting modules with violating license', () => {
 
       it('detects as array of strings', () => {
         const modules = extractModules(npmModuleMap)
-        expect(modules).to.deep.include({ name: 'B', version: '1', license: ['MIT', 'BSD'] })
+        expect(modules).to.deep.include(makeModule('B', '1', ['MIT', 'BSD']))
       })
     })
 
@@ -78,7 +79,7 @@ describe('getting modules with violating license', () => {
 
       it('detects as array of strings', () => {
         const modules = extractModules(npmModuleMap)
-        expect(modules).to.deep.include({ name: 'B', version: '1', license: ['MIT', 'BSD'] })
+        expect(modules).to.deep.include(makeModule('B', '1', ['MIT', 'BSD']))
       })
     })
   })
@@ -109,7 +110,7 @@ describe('getting modules with violating license', () => {
       }
 
       const modules = extractModules(npmModuleMap)
-      expect(modules).to.deep.include({ name: 'B', version: '1', license: 'BSD' })
+      expect(modules).to.deep.include(makeModule('B', '1', 'BSD'))
     })
 
     it(`should throw if only ${CIRCULAR} licenses are present`, () => {

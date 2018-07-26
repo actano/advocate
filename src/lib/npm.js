@@ -13,13 +13,15 @@ function* iterateDependencies(parent) {
   if (!parent.dependencies) return
 
   for (const module of Object.values(parent.dependencies)) {
+    const { name, version, author } = module
     if (!module.private) {
       const license = _extractLicenseName(module.license || module.licence || module.licenses || module.licences)
 
       yield {
-        name: module.name,
-        version: String(module.version),
+        name,
+        version: String(version),
         license,
+        author,
       }
     }
     yield* iterateDependencies(module)

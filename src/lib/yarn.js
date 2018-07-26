@@ -30,10 +30,17 @@ export const getLicenses = async (dev, cwd = '.') => {
   const _name = head.indexOf('Name')
   const _version = head.indexOf('Version')
   const _license = head.indexOf('License')
+  const _vendorName = head.indexOf('VendorName')
   return body.map((module) => {
     const name = module[_name]
     const version = module[_version]
     const license = module[_license]
-    return { name, version, license }
+    const author = {
+      name: module[_vendorName],
+    }
+
+    return {
+      name, version, license, author,
+    }
   })
 }

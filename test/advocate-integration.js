@@ -1,6 +1,5 @@
 import chai from 'chai'
 import chaiSubset from 'chai-subset'
-import memo from 'memo-is'
 import path from 'path'
 
 import advocate from '../src/index'
@@ -53,65 +52,62 @@ describe('advocate integration test', () => {
   })
 
   describe('with all parameters', () => {
-    const licenseWhitelist = memo().is(() => [])
-    const exceptionWhitelist = memo().is(() => [])
-    const moduleWhitelist = memo().is(() => [])
-    let violatingModules = null
-
-    beforeEach(async () => {
-      const whitelist = {
-        licenses: licenseWhitelist(),
-        licenseExceptions: exceptionWhitelist(),
-        modules: moduleWhitelist(),
-      }
-
+    const run = async (whitelist) => {
       const options = {
         dev: false,
         path: testDataPathA,
       }
 
-      const result = await advocate(whitelist, options);
-      ({ violatingModules } = result)
-    })
+      const result = await advocate(whitelist, options)
+      const { violatingModules } = result
+      return mapName(violatingModules)
+    }
 
     describe('license whitelist', () => {
-      licenseWhitelist.is(() => ['MIT', 'JSON'])
-
-      it('contains violating modules', () => {
-        expect(mapName(violatingModules)).to.have.members(['c@0.0.1'])
-      })
-
-      it('doesn\'t contains non-violating modules', () => {
-        expect(mapName(violatingModules)).to.not.contain('b@0.0.1')
+      it('contains violating modules', async () => {
+        const licenses = ['MIT', 'JSON']
+        const result = await run({ licenses })
+        await expect(result)
+          .to.be.an('array')
+          .with.lengthOf(1)
+          .and.have.members(['c@0.0.1'])
       })
 
       describe('in combination with exception white list', () => {
-        licenseWhitelist.is(() => ['Apache-2.0'])
-        exceptionWhitelist.is(() => ['LZMA-exception'])
-
-        it('contains violating modules', () => {
-          expect(mapName(violatingModules)).to.have.members(['b@0.0.1'])
-        })
-
-        it('doesn\'t contains non-violating modules', () => {
-          expect(mapName(violatingModules)).to.not.contain('c@0.0.1')
+        it('contains violating modules', async () => {
+          const licenses = ['Apache-2.0']
+          const licenseExceptions = ['LZMA-exception']
+          const result = await run({ licenses, licenseExceptions })
+          expect(result)
+            .to.be.an('array')
+            .with.lengthOf(1)
+            .and.have.members(['b@0.0.1'])
         })
       })
     })
 
     describe('module whitelist', () => {
-      moduleWhitelist.is(() => [{
-        name: 'b',
-        version: '0.0.1',
-      },
-      ])
-
-      it('contains violating modules', () => {
-        expect(mapName(violatingModules)).to.have.members(['c@0.0.1'])
+      it('contains violating modules', async () => {
+        const modules = [{
+          name: 'b',
+          version: '0.0.1',
+        }]
+        const result = await run({ modules })
+        expect(result)
+          .to.be.an('array')
+          .with.lengthOf(1)
+          .and.have.members(['c@0.0.1'])
       })
+    })
 
-      it('doesn\'t contains non-violating modules', () => {
-        expect(mapName(violatingModules)).to.not.contain('b@0.0.1')
+    describe('authors whitelist', () => {
+      it('contains violating modules', async () => {
+        const authors = ['author']
+        const result = await run({ authors })
+        expect(result)
+          .to.be.an('array')
+          .with.lengthOf(1)
+          .and.have.members(['c@0.0.1'])
       })
     })
   })
