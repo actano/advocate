@@ -19,8 +19,7 @@ describe('spdx evaluator', () => {
     it('should return true if evalLicence returns true', () => {
       evalLicense().withArgs('A').returns(true)
 
-      const ast =
-        { license: 'A' }
+      const ast = { license: 'A' }
 
       expect(evaluate(ast)).to.be.true
     })
@@ -28,8 +27,7 @@ describe('spdx evaluator', () => {
     it('should return false if evalLicence returns false', () => {
       evalLicense().withArgs('A').returns(true)
 
-      const ast =
-        { license: 'B' }
+      const ast = { license: 'B' }
 
       expect(evaluate(ast)).to.be.false
     })
