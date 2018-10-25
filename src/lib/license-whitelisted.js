@@ -1,4 +1,4 @@
-import { parse, valid } from 'spdx'
+import parse from 'spdx-expression-parse'
 
 export class Evaluator {
   constructor(evalLicense, evalLicenseException) {
@@ -39,10 +39,14 @@ const isWhitelisted = (licenses = [], licenseExceptions = [], license) => {
 
   if (evalLicense(license)) return true
 
-  if (valid(license)) {
-    const evaluator = new Evaluator(evalLicense, evalLicenseException)
-    if (evaluator.evaluate(parse(license))) return true
+  let parsed
+  try {
+    parsed = parse(license)
+  } catch (e) {
+    return false
   }
+  const evaluator = new Evaluator(evalLicense, evalLicenseException)
+  if (evaluator.evaluate(parsed)) return true
 
   return false
 }

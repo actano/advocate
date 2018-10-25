@@ -30,7 +30,7 @@
   "dependencies": {
     "ld-jsonstream": "^1.0.1",
     "semver": "^5.6.0",
-    "spdx": "^0.5.2"
+    "spdx-expression-parse": "^3.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
