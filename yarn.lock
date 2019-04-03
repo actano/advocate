@@ -2425,10 +2425,10 @@ lcov-parse@^0.0.10:
   resolved "https://registry.yarnpkg.com/lcov-parse/-/lcov-parse-0.0.10.tgz#1b0b8ff9ac9c7889250582b70b71315d9da6d9a3"
   integrity sha1-GwuP+ayceIklBYK3C3ExXZ2m2aM=
 
-ld-jsonstream@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/ld-jsonstream/-/ld-jsonstream-1.0.1.tgz#7565d7aa022610d30a373bed8a890e33972c469a"
-  integrity sha512-tu09zkOHbU7yyQwK745GrVLoVbOK3UYINYn9Vi7HRTdAuhgwq92Wrj37mHPahOnQH/5+3uwBbwLflxA0al9USg==
+ld-jsonstream@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/ld-jsonstream/-/ld-jsonstream-2.0.2.tgz#561b6fd7213efc66912b28aff2c6453f289755f4"
+  integrity sha512-uxS3/uRlg5Fknd9Yp3bu3frAh2MXanIPyZf1ZuKU6QoVREH2yTJ/eJO4Cw2PA4GK1UOo2Kr0oR5d54SLV3z06A==
 
 levn@^0.3.0, levn@~0.3.0:
   version "0.3.0"
