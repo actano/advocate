@@ -28,7 +28,7 @@
     "node": ">=8"
   },
   "dependencies": {
-    "ld-jsonstream": "^1.0.1",
+    "ld-jsonstream": "^2.0.0",
     "semver": "^5.6.0",
     "spdx-expression-parse": "^3.0.0"
   },
