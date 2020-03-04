@@ -1359,10 +1359,10 @@ escodegen@1.8.x:
   optionalDependencies:
     source-map "~0.2.0"
 
-eslint-config-actano-base@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-actano-base/-/eslint-config-actano-base-4.0.0.tgz#0b14a8113dfaa6df6b185ff4231963a070665100"
-  integrity sha512-x/Dg5rOHv1M2mRLYzCwo6DBVLej1rFcVViOLcdvg1FoG5EEd3SZoFoZyEGUe4jLvdKX17ksV+VBOFNPa/jfVCQ==
+eslint-config-actano-base@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-actano-base/-/eslint-config-actano-base-6.0.0.tgz#050b1668244423d912b8697d99e5884e5abdbd40"
+  integrity sha512-OfxDvbkgA/uG0p4fqFIgNENqbV5jEXvW9sFShmspWBXnLsExiE9SdI6AWYrPZ8KE4UWlouRgDAG8HS/DFbwUjQ==
   dependencies:
     eslint-config-airbnb-base "^13.1.0"
 
